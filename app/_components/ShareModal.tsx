@@ -3,10 +3,10 @@
 import { Copy } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
-import Facebook2 from "../_components/icons/Facebook2.svg";
+import Facebook2 from "../_components/icons/facebook2.svg";
 import Instagram2 from "../_components/icons/Instagram2.svg";
 import Pinterest from "../_components/icons/Pinterest.svg";
-import Twitter from "../_components/icons/Twitter.png";
+import Twitter from "../_components/icons/twitter.png";
 import Whatsapp from "../_components/icons/Whatsapp.svg";
 
 interface ShareModalProps {
