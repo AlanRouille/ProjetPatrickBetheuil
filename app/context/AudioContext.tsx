@@ -44,7 +44,7 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({
       clearTimeout(timer); // Nettoyez le timer
       audioInstance?.removeEventListener("canplaythrough", () => {}); // Nettoyez l'écouteur
     };
-  }, []); // Exécutez ce useEffect une seule fois lors du montage
+  }, [isPlaying]); // Exécutez ce useEffect une seule fois lors du montage
 
   useEffect(() => {
     // Joue ou met en pause la musique en fonction de isPlaying

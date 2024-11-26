@@ -11,6 +11,7 @@ interface ArtworkDetailsProps {
   imageUrl: string;
   price: number;
   description: string;
+  isSoldOut: boolean;
 }
 
 async function getArtwork(id: number): Promise<ArtworkDetailsProps | null> {
