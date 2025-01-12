@@ -18,29 +18,29 @@ export default function HomePage() {
 
   return (
     <div className="relative h-screen">
-      <Header showLogo={false} />
+      <Header />
       <main className="flex flex-col items-center justify-center h-full">
-        <ul className="flex flex-row space-x-40 font-light font-title text-7xl mb-32">
+        <ul className="flex flex-col lg:flex-row lg:space-x-40 font-light font-title text-3xl md:text-4xl lg:text-6xl mb-32 space-y-4 lg:space-y-0">
           <Link href="/about">
             <li
-              className={`menu-item transform transition-transform duration-300 cursor-pointer text-center hover:scale-125  ${
+              className={`menu-item transform transition-transform duration-300 cursor-pointer text-center hover:scale-125 sm:mb-7 ${
                 activeIndex === 0 ? "active" : ""
               }`}
               onMouseEnter={() => handleMouseEnter(0)}
               onMouseLeave={handleMouseLeave}
             >
-              About
+              À propos
             </li>
           </Link>
           <Link href="/projets">
             <li
-              className={`menu-item transform transition-transform duration-300 cursor-pointer text-center hover:scale-125  ${
+              className={`menu-item transform transition-transform duration-300 cursor-pointer text-center hover:scale-125 sm:mb-7  ${
                 activeIndex === 1 ? "active" : ""
               }`}
               onMouseEnter={() => handleMouseEnter(1)}
               onMouseLeave={handleMouseLeave}
             >
-              Oeuvres
+              Œuvres
             </li>
           </Link>
           <Link href="/contact">

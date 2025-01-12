@@ -48,6 +48,6 @@ export default async function sendEmail(
     console.error("Erreur lors de l’envoi de l’email:", error);
     return res
       .status(500)
-      .json({ message: "Erreur interne lors de l’envoi du message" });
+      .json({ message: "Erreur interne lors de l’envoi du myessage" });
   }
 }

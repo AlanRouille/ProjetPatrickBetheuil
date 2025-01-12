@@ -11,14 +11,14 @@ const PanierSidebar: React.FC = () => {
   if (!showPanierSidebar) return null; // Si la sidebar n'est pas affichée, ne rien rendre
 
   return (
-    <div className="fixed right-0 top-0 w-1/3 h-full bg-white shadow-lg p-5 z-50">
+    <div className="fixed inset-0 bg-white z-50 p-5 w-full h-full md:w-1/3 md:h-full">
       <button
         onClick={() => setShowPanierSidebar(false)}
-        className="absolute top-2 right-2"
+        className="absolute top-4 right-4 text-gray-600 text-2xl"
       >
         &times; {/* Icône de fermeture */}
       </button>
-      <h2 className="text-xl font-bold">Détails de l&apos;œuvre</h2>
+      <h2 className="text-xl font-bold mb-4">Détails de l&apos;œuvre</h2>
       {selectedArtwork ? ( // Vérifiez si selectedArtwork est disponible
         <>
           <Image

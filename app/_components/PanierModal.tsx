@@ -59,7 +59,7 @@ const PanierModal: React.FC = () => {
       onClick={() => setShowPanierSidebar(false)}
     >
       <div
-        className={`bg-white w-1/3 h-full shadow-lg relative flex flex-col transition-transform duration-500 transform ${
+        className={`bg-white w-full h-full md:w-1/3 md:h-full shadow-lg relative flex flex-col transition-transform duration-500 transform ${
           showPanierSidebar ? "translate-x-0" : "translate-x-full"
         }`}
         onClick={(e) => e.stopPropagation()}
@@ -128,7 +128,7 @@ const PanierModal: React.FC = () => {
               className="w-2/3 h-10 mr-4 mb-6 p-4 shadow-sm font-sans font-normal rounded-sm bg-white text-black focus:outline-none focus:ring-2 focus:ring-primary-orange"
             />
             <button
-              className="bg-primary-orange rounded-sm hover:bg-orange-600 text-white font-normal shadow-lg transform transition-all duration-200 ease-in-out hover:scale-95 hover:shadow-md p-2 w-36 mb-6"
+              className="bg-primary-orange rounded-sm hover:bg-orange-600 text-white font-normal shadow-lg transform transition-all duration-200 ease-in-out hover:scale-95 hover:shadow-md p-2 w-36 mb-6 mr-5"
               onClick={handlePayment}
               disabled={!email}
             >

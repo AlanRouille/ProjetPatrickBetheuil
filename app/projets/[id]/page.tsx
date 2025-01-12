@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { notFound } from "next/navigation";
 import { Header } from "../../_components/Header";
-import ArtworkDetailsClient from "./ArtworkDetailsClient"; // Import du composant client
+import ArtworkDetailsClient from "./ArtworkDetailsClient";
 
 const prisma = new PrismaClient();
 

@@ -13,7 +13,6 @@ import share from "../_components/icons/share.svg";
 import { useModal } from "../context/ModalContext";
 import { usePanier } from "../context/PanierContext";
 import PanierModal from "./PanierModal";
-import { Section } from "./Section";
 import ShareModal from "./ShareModal";
 
 interface HeaderProps {
@@ -46,17 +45,15 @@ export function Header({ showLogo = true }: HeaderProps) {
       className={`py-3 pt-4 ${hasMounted ? "opacity-100" : "opacity-0"}`}
       style={{ position: "relative", zIndex: 1000 }}
     >
-      <Section className="flex items-center">
+      <div className="max-w-screen-7xl px-5 flex items-center">
         {(pathname !== "/" || showLogo) && (
           <div className="flex items-center group">
             <h1 className="transition-opacity duration-1000">
               <Link href="/">
                 <Image
-                  className={`cursor-pointer transition-colors duration-500 ease-in-out ${
-                    showReturnText
-                      ? "filter brightness-0 invert transition-transform duration-1000 ease-in-out"
-                      : ""
-                  }`}
+                  className={`cursor-pointer transition-transform duration-500 ease-in-out ${
+                    showReturnText ? "filter brightness-0 invert" : ""
+                  } hover:rotate-45`}
                   src={Logo}
                   alt="Logo"
                   width={42}
@@ -86,101 +83,102 @@ export function Header({ showLogo = true }: HeaderProps) {
 
         <div className="flex-1" />
 
-        {/* Icônes sociales affichées en permanence */}
-        <ul className="flex space gap-x-5 -translate-x-52">
-          <Link href="https://www.facebook.com/betheuil.patrick">
-            <Image
-              className="cursor-pointer"
-              src={Facebook}
-              alt="Facebook"
-              width={24}
-              height={24}
-            />
-          </Link>
-          <Link href="https://www.instagram.com/betheuilpatrick/">
-            <Image
-              className="cursor-pointer"
-              src={Instagram}
-              alt="Instagram"
-              width={24}
-              height={24}
-            />
-          </Link>
-          <div className="cursor-pointer" onClick={() => setShowModal(true)}>
-            <Image
-              className="cursor-pointer"
-              src={share}
-              alt="Partager"
-              width={24}
-              height={24}
-            />
+        <div className="flex items-center space-x-5">
+          {/* Icônes sociales affichées en permanence */}
+          <ul className="flex space-x-2 md:space-x-5">
+            <Link href="https://www.facebook.com/betheuil.patrick">
+              <Image
+                className="cursor-pointer"
+                src={Facebook}
+                alt="Facebook"
+                width={24}
+                height={24}
+              />
+            </Link>
+            <Link href="https://www.instagram.com/betheuilpatrick/">
+              <Image
+                className="cursor-pointer"
+                src={Instagram}
+                alt="Instagram"
+                width={24}
+                height={24}
+              />
+            </Link>
+            <div className="cursor-pointer" onClick={() => setShowModal(true)}>
+              <Image
+                className="cursor-pointer"
+                src={share}
+                alt="Partager"
+                width={24}
+                height={24}
+              />
+            </div>
+          </ul>
+
+          <div className="relative cursor-pointer" onClick={handleCartClick}>
+            {artworks.length > 0 && (
+              <>
+                <ShoppingCart className="text-white cursor-pointer" size={24} />
+                <span className="absolute -top-2 -right-2 bg-primary-orange font-sans font-thin text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                  {artworks.length}
+                </span>
+              </>
+            )}
           </div>
-        </ul>
 
-        <div
-          className="relative mr-12 cursor-pointer"
-          onClick={handleCartClick}
-        >
-          {artworks.length > 0 && (
-            <>
-              <ShoppingCart className="text-white cursor-pointer" size={24} />
-              <span className="absolute -top-2 -right-2 bg-primary-orange font-sans font-thin text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-                {artworks.length}
-              </span>
-            </>
-          )}
-        </div>
+          <div className="flex items-center">
+            {pathname && pathname.startsWith("/projets/") && (
+              <Link href="/projets">
+                <div
+                  className="flex items-center text-white cursor-pointer group mr-2 md:mr-4 ml-5"
+                  onMouseEnter={() => setShowText(false)}
+                >
+                  <span className="text-base font-sans font-normal">
+                    Fermer
+                  </span>
+                  <span className="mx-2 border-r h-6 border-gray-500"></span>
 
-        <div className="flex items-center">
-          {pathname && pathname.startsWith("/projets/") && (
-            <Link href="/projets">
-              <div
-                className="flex items-center text-white cursor-pointer group mr-4"
-                onMouseEnter={() => setShowText(false)}
-              >
-                <span className="text-base font-sans font-normal">Fermer</span>
-                <span className="mx-2 border-r h-6 border-gray-500"></span>
-
-                <div className="pointer-events-none fixed inset-0 items-center justify-center bg-black bg-opacity-80 z-40 transition-opacity duration-500 ease-in-out hidden group-hover:flex">
-                  <X
-                    size={300}
-                    className="text-white opacity-90"
-                    style={{ zIndex: 1100 }}
-                  />
+                  <div className="pointer-events-none fixed inset-0 items-center justify-center bg-black bg-opacity-80 z-40 transition-opacity duration-500 ease-in-out hidden group-hover:flex">
+                    <X
+                      size={300}
+                      className="text-white opacity-90"
+                      style={{ zIndex: 1100 }}
+                    />
+                  </div>
                 </div>
-              </div>
-            </Link>
-          )}
+              </Link>
+            )}
 
-          <div
-            className={`overflow-hidden transition-all duration-500 ease-in-out ${
-              showText ? "max-w-[100px]" : "max-w-0"
-            }`}
-          >
+            <div
+              className={`overflow-hidden transition-all duration-500 ease-in-out ${
+                showText ? "max-w-[100px]" : "max-w-0"
+              }`}
+            >
+              <Link href="/home">
+                <span
+                  className={`cursor-pointer font-sans text-white pr-2 transition-opacity duration-500 ${
+                    showText ? "opacity-100" : "opacity-0"
+                  }`}
+                >
+                  Découvrir
+                </span>
+              </Link>
+            </div>
+
             <Link href="/home">
-              <span
-                className={`cursor-pointer font-sans text-white pr-2 transition-opacity duration-500 ${
-                  showText ? "opacity-100" : "opacity-0"
-                }`}
-              >
-                Découvrir
-              </span>
+              <Image
+                className="cursor-pointer ml-2"
+                src={MenuBurger}
+                alt="MenuBurger"
+                width={16}
+                height={16}
+                onMouseEnter={() => setShowText(true)}
+                onMouseLeave={() => setShowText(false)}
+              />
             </Link>
           </div>
-
-          <Link href="/home">
-            <Image
-              className="cursor-pointer ml-2"
-              src={MenuBurger}
-              alt="MenuBurger"
-              width={16}
-              height={16}
-              onMouseEnter={() => setShowText(true)}
-              onMouseLeave={() => setShowText(false)}
-            />
-          </Link>
         </div>
-      </Section>
+      </div>
       <ShareModal showModal={showModal} setShowModal={setShowModal} />
       <PanierModal />
     </header>

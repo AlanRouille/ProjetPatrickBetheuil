@@ -90,7 +90,7 @@ export default function Contact() {
       <Header />
 
       <div
-        className={`flex flex-col md:flex-row items-center justify-center flex-1 p-8 gap-16 max-w-6xl mx-auto transition-opacity duration-1000 ${
+        className={`flex flex-col md:flex-row items-center justify-center flex-1 p-8 gap-8 md:gap-16 max-w-6xl mx-auto transition-opacity duration-1000 ${
           isLoaded ? "opacity-100" : "opacity-0"
         }`}
       >
@@ -121,7 +121,7 @@ export default function Contact() {
             isLoaded ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
           }`}
         >
-          <h2 className="text-6xl font-light font-title mb-3 text-shadow-sm">
+          <h2 className="text-4xl md:text-6xl font-light font-title mb-3 text-shadow-sm">
             Entrer en contact
           </h2>
           <p className="font-sans font-thin mb-6 text-base text-shadow-sm">
@@ -129,7 +129,7 @@ export default function Contact() {
             Patrick
           </p>
           <form onSubmit={handleSubmit} className="flex flex-col space-y-6">
-            <div className="flex space-x-4">
+            <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
               <input
                 type="text"
                 placeholder="Nom"

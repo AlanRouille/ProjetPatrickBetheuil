@@ -1,75 +1,114 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
-// Définir un type pour le contexte audio
 interface AudioContextType {
   isPlaying: boolean;
   toggleAudio: () => void;
-  loading: boolean; // État de chargement
+  loading: boolean;
+  currentTrack: string;
+  changeTrack: (track: string) => void;
+  tracks: string[];
 }
 
 const AudioContext = createContext<AudioContextType | undefined>(undefined);
 
-let audioInstance: HTMLAudioElement | null = null; // Instance audio partagée
+const audioInstances: { [key: string]: HTMLAudioElement } = {};
 
 export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [isPlaying, setIsPlaying] = useState(true); // Démarre avec isPlaying à true
-  const [loading, setLoading] = useState(true); // État de chargement
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [currentTrackIndex, setCurrentTrackIndex] = useState<number>(0);
+
+  // Utilisation de useMemo pour éviter la redéfinition de tracks à chaque rendu
+  const tracks: string[] = useMemo(
+    () => ["Track13.mp3", "Track12.mp3", "Track15.mp3"],
+    []
+  );
 
   useEffect(() => {
-    // Créez l'objet Audio uniquement si ce n'est pas déjà fait
-    if (!audioInstance) {
-      audioInstance = new Audio("/audio/file2-inter.mp3"); // Assurez-vous que le chemin est correct
-      audioInstance.loop = true; // Optionnel : boucle l'audio
+    const currentTrack = tracks[currentTrackIndex];
 
-      // Écoutez l'événement canplaythrough pour savoir quand l'audio est prêt
-      audioInstance.addEventListener("canplaythrough", () => {
-        if (isPlaying && audioInstance) {
-          audioInstance.play().catch((error) => {
+    if (!audioInstances[currentTrack]) {
+      audioInstances[currentTrack] = new Audio(`/audio/${currentTrack}`);
+      audioInstances[currentTrack].loop = true; // Ne pas boucler ici
+
+      audioInstances[currentTrack].addEventListener("ended", () => {
+        // Passer à la piste suivante lorsque la piste actuelle se termine
+        const nextTrackIndex = (currentTrackIndex + 1) % tracks.length; // Boucle à travers les pistes
+        setCurrentTrackIndex(nextTrackIndex);
+      });
+
+      audioInstances[currentTrack].addEventListener("canplaythrough", () => {
+        if (isPlaying && audioInstances[currentTrack]) {
+          audioInstances[currentTrack].play().catch((error) => {
             console.error("Erreur lors de la lecture de l'audio :", error);
           });
         }
       });
     }
 
-    // Simulez un chargement (remplacez cela par votre logique de chargement)
     const timer = setTimeout(() => {
-      setLoading(false); // Fin du chargement
-    }, 2000); // Remplacez 2000 par la durée de votre loader
+      setLoading(false);
+    }, 2000);
 
     return () => {
-      clearTimeout(timer); // Nettoyez le timer
-      audioInstance?.removeEventListener("canplaythrough", () => {}); // Nettoyez l'écouteur
+      clearTimeout(timer);
+      audioInstances[currentTrack]?.removeEventListener("ended", () => {});
+      audioInstances[currentTrack]?.removeEventListener(
+        "canplaythrough",
+        () => {}
+      );
     };
-  }, [isPlaying]); // Exécutez ce useEffect une seule fois lors du montage
+  }, [isPlaying, currentTrackIndex, tracks]);
 
   useEffect(() => {
-    // Joue ou met en pause la musique en fonction de isPlaying
-    if (audioInstance) {
-      if (isPlaying) {
-        audioInstance.play().catch((error) => {
-          console.error("Erreur lors de la lecture de l'audio :", error);
-        });
-      } else {
-        audioInstance.pause();
+    Object.keys(audioInstances).forEach((track) => {
+      if (audioInstances[track]) {
+        if (track === tracks[currentTrackIndex] && isPlaying) {
+          audioInstances[track].play().catch((error) => {
+            console.error("Erreur lors de la lecture de l'audio :", error);
+          });
+        } else {
+          audioInstances[track].pause();
+        }
       }
-    }
-  }, [isPlaying]); // Ajoutez isPlaying ici
+    });
+  }, [isPlaying, currentTrackIndex, tracks]);
 
   const toggleAudio = () => {
-    setIsPlaying((prev) => {
-      const newState = !prev;
-      // Enregistrez l'état audio dans localStorage
-      localStorage.setItem("isPlaying", String(newState));
-      return newState;
-    });
+    setIsPlaying((prev) => !prev);
+  };
+
+  const changeTrack = (track: string) => {
+    const trackIndex = tracks.indexOf(track);
+    if (trackIndex !== -1) {
+      setCurrentTrackIndex(trackIndex);
+      if (audioInstances[tracks[currentTrackIndex]]) {
+        audioInstances[tracks[currentTrackIndex]].pause();
+      }
+    }
   };
 
   return (
-    <AudioContext.Provider value={{ isPlaying, toggleAudio, loading }}>
+    <AudioContext.Provider
+      value={{
+        isPlaying,
+        toggleAudio,
+        loading,
+        currentTrack: tracks[currentTrackIndex],
+        changeTrack,
+        tracks,
+      }}
+    >
       {children}
     </AudioContext.Provider>
   );

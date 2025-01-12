@@ -65,14 +65,14 @@ export default function Page() {
   }
 
   return (
-    <main>
+    <main className="min-h-screen text-white">
       <Header showLogo={false} />
 
-      <div className="flex flex-col items-center my-16 justify-center">
+      <div className="flex flex-col items-center my-8 md:my-16 justify-center">
         <Link href="/projets" passHref>
           <span
-            ref={projectsLinkRef} // Référence pour le lien
-            className="relative inline-block text-white mb-4 font-title font-light uppercase cursor-pointer"
+            ref={projectsLinkRef}
+            className="relative inline-block text-white mb-4 font-title font-light uppercase cursor-pointer text-sm md:text-lg lg:text-xl"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
@@ -86,20 +86,27 @@ export default function Page() {
           </span>
         </Link>
 
-        <div className="mt-32 opacity-100" ref={logoRef}>
-          {" "}
-          {/* Référence pour le logo */}
-          <Image src={Logo} alt="Logo" width={476} height={408} />
+        <div
+          className="mt-16 md:mt-32 opacity-100 flex justify-center"
+          ref={logoRef}
+        >
+          <Image
+            src={Logo}
+            alt="Logo"
+            width={300}
+            height={260}
+            className="w-40 md:w-72 lg:w-96"
+          />
         </div>
 
         <span
-          ref={invitationRef} // Référence pour le texte d'invitation
-          className="absolute font-title font-thin text-center text-shadow-sm text-white text-7xl pt-40"
+          ref={invitationRef}
+          className="absolute font-title font-thin text-center text-shadow-sm text-white text-3xl md:text-5xl lg:text-7xl pt-20 md:pt-32 lg:pt-40"
         >
           Invitation à mon imaginaire
         </span>
       </div>
-      <div className="fixed bottom-4 transition-opacity duration-500">
+      <div className="fixed bottom-4 transition-opacity duration-500 w-full px-4 md:px-8">
         <AudioPlayer />
       </div>
     </main>

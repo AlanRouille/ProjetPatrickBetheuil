@@ -23,7 +23,7 @@ export default function ArtworkDetailsClient({
   artwork: ArtworkDetailsProps;
 }) {
   const { showModal, setShowModal } = useModal();
-  const { addArtwork } = usePanier();
+  const { addArtwork, setShowPanierSidebar } = usePanier();
   const [isLoaded, setIsLoaded] = useState(false);
 
   const handleAddToPanier = () => {
@@ -37,6 +37,7 @@ export default function ArtworkDetailsClient({
       price: artwork.price,
       imageUrl: artwork.imageUrl,
     });
+    setShowPanierSidebar(true);
     console.log(`Article ajouté: ${artwork.title}`);
   };
 
@@ -89,7 +90,7 @@ export default function ArtworkDetailsClient({
       </div>
       <ShareModal showModal={showModal} setShowModal={setShowModal} />
       <PanierModal />
-      <div className="fixed bottom-4 right-4 text-white z-50">
+      <div className=" fixed bottom-4 right-4 text-white z-50">
         <AudioPlayer />
       </div>
     </div>

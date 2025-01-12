@@ -9,92 +9,79 @@ async function main() {
     data: [
       {
         title: "La Baleine",
-        imageUrl: "https://patrickbetheuil.com/images/01-LaBaleine.webp",
+        imageUrl: "/images/01-LaBaleine.webp",
         price: 50,
         description: `Cette œuvre abstraite, intitulée 'La Baleine', se distingue par ses formes dynamiques et ses couleurs contrastées. Les lignes sinueuses évoquent une créature marine majestueuse évoluant dans un espace imaginaire, tandis que les teintes de bleu, jaune, orange et marron apportent une richesse visuelle. Le jeu entre courbes fluides et lignes anguleuses crée une sensation de mouvement, invitant le spectateur à plonger dans cet univers mystérieux, où se mêlent liberté et exploration des formes naturelles et cosmiques.`,
       },
       {
         title: "La Biche",
-        imageUrl: "https://patrickbetheuil.com/images/02-LaBiche.webp",
+        imageUrl: "/images/02-LaBiche.webp",
         price: 100,
         description: `L'œuvre intitulée 'La Biche' présente une composition abstraite où l'œil central semble capturer l'essence de cet animal gracieux. Les lignes fluides et sinueuses, dans des tons de marron, orange et bleu, évoquent la majesté et la délicatesse d'une biche dans un environnement stylisé. Les couleurs vives comme le jaune et le bleu contrastent avec les teintes terreuses, ajoutant un dynamisme visuel tout en symbolisant à la fois la nature sauvage et la tranquillité.`,
       },
       {
         title: "Le Visionnaire",
-        imageUrl: "https://patrickbetheuil.com/images/03-LeVisionnaire.webp",
+        imageUrl: "/images/03-LeVisionnaire.webp",
         price: 80,
         description: `Le Visionnaire est une œuvre d'art abstraite qui capte l'essence d'une vision unique et profonde. Elle est composée de formes fluides et dynamiques qui semblent jaillir d'un point central, symbolisant l'émergence d'une idée ou d'une révélation. Les courbes élégantes, qui évoquent des plumes ou des vagues en mouvement, sont accentuées par des nuances de bleu profond, de noir intense, et des touches vibrantes d'orange.`,
       },
       {
         title: "La Révérence",
-        imageUrl: "https://patrickbetheuil.com/images/04-LaRévérence.webp",
+        imageUrl: "/images/04-lareverence.webp",
         price: 80,
         description: `La Révérence est une composition délicate qui capture l'élégance d'un geste. Les lignes courbes rappellent une danse fluide, une inclinaison gracieuse, comme un salut. Les motifs organiques et les couleurs naturelles — verts doux, bruns terreux, touches de rouge — inspirent la sérénité. Les cercles symbolisent des cycles et des moments de réflexion. Le contraste entre lignes nettes et textures dorées reflète l'équilibre entre fluidité et structure. Cette oeuvre incarne la beauté d’un mouvement gracieux, laissant place à l'interprétation du spectateur.`,
       },
       {
         title: "L'Âme Dans L'eau",
-        imageUrl:
-          "https://patrickbetheuil.com/images/05-05-L'ÂmeDansL'eau.webp",
+        imageUrl: "/images/05-L'ÂmeDansL'eau.webp",
         price: 100,
         description: `L'Âme dans l'Eau est une oeuvre introspective qui représente une figure humaine en position foetale, entourée de courbes fluides rappelant des vagues. La personne, tête inclinée, semble plongée dans une réflexion profonde, exprimant une sérénité silencieuse. Les teintes dominantes — bruns, oranges, roses — créent une sensation de chaleur et de connexion à la terre, tandis que des touches de jaune et de noir ajoutent un contraste subtil. Les lignes ondulées autour de la figure évoquent des flux aquatiques, symbolisant un état de purification, de transition ou de protection. L’oeuvre suggère un moment de calme intérieur, en harmonie avec les éléments.`,
       },
       {
         title: "L'Emprise",
-        imageUrl: "https://patrickbetheuil.com/images/06-L'Emprise.webp",
+        imageUrl: "/images/06-L'Emprise.webp",
         price: 80,
         description: `L'Emprise est une oeuvre qui dégage force et contrôle, avec deslignes élancées et des formes enchevêtrées capturant un mouvement en suspens. Les courbes dynamiques s'entrelacent, créant une tension maîtrisée. Les touches de bleu profond, de vert, et de jaune doré contrastent avec les sphères dorées au centre, attirant le regard et symbolisant des points d’emprise. Les éléments argentés ajoutent une dimension lumineuse et métallique, renforçant l'idée de contenir une énergie. Les lignes inclinées suggèrent un mouvement retenu par les structures environnantes. L'Emprise explore les forces invisibles qui nous influencent, parlant de maîtrise, de retenue, et de la beauté de cette tension créative.`,
       },
       {
         title: "Le poids du monde",
-        imageUrl: "https://patrickbetheuil.com/images/07-LePoidsDuMonde.webp",
+        imageUrl: "/images/07-LePoidsDuMonde.webp",
         price: 80,
         description: `Le Poids du Monde est une oeuvre saisissante qui exprime la lourdeur des responsabilités et des pressions ressenties. Dominée par des tons chauds — jaune, orange brûlé, rouge — elle présente une grande forme circulaire, semblable à un globe, symbolisant la charge du "monde". Au centre de l’oeuvre, cette sphère porte une intensité particulière, représentant le poids émotionnel ou physique. Des lignes sombres et épaisses la contournent, créant une impression de fragmentation et de soutien. Le contraste entre lignes anguleuses et douceur de la sphère renforce l'idée d'un fardeau à porter. Les textures diffuses autour du sujet accentuent cette présence pesante, tandis que des éclats de blanc lumineux suggèrent une force cachée. Le Poids du Monde reflète la manière dont chacun porte des responsabilités, tout en laissant entrevoir une lueur d'espoir.`,
       },
       {
         title: "Vers sa Destinée",
-        imageUrl: "https://patrickbetheuil.com/images/08-VerssaDestinée.webp",
+        imageUrl: "/images/08-VerssaDestinée.webp",
         price: 80,
         description: `Vers sa Destinée est une oeuvre vibrante symbolisant un chemin fluide et inévitable vers un avenir tracé. Les courbes élégantes et les cercles bruns et dorés suggèrent un mouvement constant, une progression vers une destination. Les lignes épurées, délicates et dynamiques, guident le regard à travers la composition, évoquant un voyage physique et émotionnel. Les touches de violet ajoutent un mystère spirituel, suggérant des moments d’éveil sur cette route. Les cercles en série symbolisent des étapes franchies dans cette quête. Les couleurs chaudes mêlées aux teintes éclatantes renforcent l’idée d’un parcours enraciné dans la réalité, mais guidé par une force supérieure. Vers sa Destinée incarne ainsi le mouvement vers un futur prédestiné, célébrant la beauté du chemin parcouru.`,
       },
       {
         title: "Le Tourbillon",
-        imageUrl: "https://patrickbetheuil.com/images/09-LeTourbillon.webp",
+        imageUrl: "/images/09-LeTourbillon.webp",
         price: 80,
         description: `Le Tourbillon évoque un mouvement puissant et énergique, avec des lignes courbes et acérées qui se croisent dans une danse chaotique mais maîtrisée. Les couleurs vibrantes — rouge, bleu, orange, jaune — créent un contraste frappant et accentuent l'impression de mouvement tourbillonnant. Chaque ligne semble en perpétuel mouvement, capturant l’essence d’un tourbillon emportant tout. Les couches de couleurs et de formes apportent une profondeur dynamique, donnant l'impression de mouvement continu. Les pointes effilées et arcs sinueux suggèrent une force imprévisible mais captivante, invitant le spectateur à se perdre dans ce maelström visuel. Cette oeuvre incarne une énergie vivante, un tourbillon de couleurs et de formes qui captivent l'oeil et l'esprit.`,
       },
       {
         title: "La Régulation",
-        imageUrl: "https://patrickbetheuil.com/images/10-LaRégulation.webp",
+        imageUrl: "/images/10-LaRégulation.webp",
         price: 80,
         description: `La Régulation illustre un équilibre délicat entre forces naturelles et harmonie. La composition est centrée sur des formes organiques, rappelant des feuilles ou des ailes stylisées, qui s’élèvent le long d’une ligne centrale. Les teintes dorées, vertes et orangées évoquent la nature et la croissance, tandis que des touches de rouge et de bleu ajoutent contraste et profondeur. Les courbes entrecroisées suggèrent un mouvement contrôlé, où chaque élément interagit en symbiose. Les sphères aux couleurs chaudes symbolisent des points de contrôle, ancrant l'idée de gestion des forces environnantes. L'oeuvre reflète un contrôle harmonieux, où chaque élément trouve sa place, incarnant l'équilibre entre chaos et ordre, nature et structure.`,
       },
       {
         title: "La Partition (musicale) Marine",
-        imageUrl:
-          "https://patrickbetheuil.com/images/11-LaPartitionmusicaleMarine.webp",
+        imageUrl: "/images/11-LaPartition(musicale).webp",
         price: 100,
         description: `La Partition (Musicale) Marine fusionne harmonieusement musique et océan, capturant l’essence d’une mélodie fluide inspirée par la mer. Des lignes courbes évoquent à la fois des cordes d'instruments et des vagues marines. Au coeur de l'oeuvre, un océan paisible aux eaux turquoise et des textures rappelant le mouvement des vagues sont présents. Des portées musicales et des notes flottent au-dessus de cette mer stylisée, symbolisant la fusion des sons et des éléments marins. Les arcs dorés et chauds entourent cet espace musical, créant un mouvement dynamique, comme un instrument jouant les harmonies de l'océan. L'oeuvre célèbre la musique et la mer, où chaque élément trouve sa place dans un équilibre harmonieux.`,
       },
       {
         title: "Les Saisons",
-        imageUrl: "https://patrickbetheuil.com/images/12-LesSaisons.webp",
+        imageUrl: "/images/12-LesSaisons.webp",
         price: 150,
-        description: `Les Saisons est une oeuvre vibrante qui évoque le passage du temps
-et l'évolution naturelle à travers des formes et couleurs organiques.
-Chaque partie représente une saison distincte : teintes chaudes
-d’orange et de rouge pour l’été et l’automne, nuances froides de vert
-et de bleu pour l’hiver et le printemps, et textures métalliques dorées
-symbolisant la richesse et la transformation cyclique. Les courbes
-ascendantes suggèrent croissance et renouveau, tandis que les
-formes angulaires et textures rugueuses reflètent les contrastes des
-moments calmes et turbulents des saisons. Les détails scintillants
-captent la lumière, rappelant le changement constant et la beauté
-éphémère de chaque période de l'année. L'oeuvre illustre la transition
-harmonieuse entre les différentes phases de la nature, capturant`,
+        description: `Les Saisons est une oeuvre vibrante qui évoque le passage du temps et l'évolution naturelle à travers des formes et couleurs organiques. Chaque partie représente une saison distincte : teintes chaudes d’orange et de rouge pour l’été et l’automne, nuances froides de vert et de bleu pour l’hiver et le printemps, et textures métalliques dorées symbolisant la richesse et la transformation cyclique. Les courbes ascendantes suggèrent croissance et renouveau, tandis que les formes angulaires et textures rugueuses reflètent les contrastes des moments calmes et turbulents des saisons. Les détails scintillants captent la lumière, rappelant le changement constant et la beauté éphémère de chaque période de l'année. L'oeuvre illustre la transition harmonieuse entre les différentes phases de la nature, capturant`,
       },
       {
         title: "L'Illusion",
-        imageUrl: "https://patrickbetheuil.com/images/13-L'Illusion.webp",
+        imageUrl: "/images/13-L'Illusion.webp",
         price: 50,
         description: `L'Illusion capte le regard par ses courbes dynamiques et ses teintes
 chaleureuses, jouant avec la perception du mouvement et de la
@@ -112,7 +99,7 @@ apparence et réalité.`,
       },
       {
         title: "Le Lien",
-        imageUrl: "https://patrickbetheuil.com/images/14-LeLien.webp",
+        imageUrl: "/images/14-LeLien.webp",
         price: 80,
         description: `Le Lien est une oeuvre vibrante qui explore l'idée de connexion entre
 différentes forces ou éléments. Les formes courbes et élancées, aux
@@ -130,7 +117,7 @@ relations et d'énergies interdépendantes.`,
       },
       {
         title: "Le Crabe",
-        imageUrl: "https://patrickbetheuil.com/images/15-LeCrabe.webp",
+        imageUrl: "/images/15-LeCrabe.webp",
         price: 50,
         description: `Le Crabe évoque un mouvement fluide et dynamique, rappelant
 l'énergie d'un crabe en action. Les courbes élégantes et les couleurs
@@ -146,8 +133,7 @@ l'interprétation personnelle du mouvement sous-marin.`,
       },
       {
         title: "L'Écoulement du Temps",
-        imageUrl:
-          "https://patrickbetheuil.com/images/16-L'ÉcoulementDuTemps.webp",
+        imageUrl: "/images/16-L'ÉcoulementDuTemps.webp",
         price: 50,
         description: `L'Écoulement du Temps illustre avec élégance le passage du temps,
 représenté par une forme allongée et fluide rappelant un cours d'eau.
@@ -165,8 +151,7 @@ dans cet écoulement continu.`,
       },
       {
         title: "L'Attraction Stellaire",
-        imageUrl:
-          "https://patrickbetheuil.com/images/17-L'AttractionStellaire.webp",
+        imageUrl: "/images/17-L'AttractionStellaire.webp",
         price: 100,
         description: `L'Attraction Stellaire évoque la puissance magnétique d'une force
 cosmique, symbolisée par des lignes éclatantes et dynamiques qui
@@ -185,7 +170,7 @@ avec intensité et grâce.`,
       },
       {
         title: "L'Ange",
-        imageUrl: "https://patrickbetheuil.com/images/18-L'Ange.webp",
+        imageUrl: "/images/18-L'Ange.webp",
         price: 100,
         description: `Cette oeuvre évoque la présence majestueuse et puissante d’un ange,
 représenté par des formes fluides et élégantes, avec des ailes
@@ -203,7 +188,7 @@ inspirant admiration et sérénité.`,
       },
       {
         title: "La Transhumance",
-        imageUrl: "https://patrickbetheuil.com/images/19-LaTranshumance.webp",
+        imageUrl: "/images/19-LaTranshumance.webp",
         price: 50,
         description: `La Transhumance capture la fluidité et le mouvement collectif d’un
 déplacement, évoquant le voyage cyclique de la transhumance. Les
@@ -223,7 +208,7 @@ en perpétuel mouvement.`,
       },
       {
         title: "Le Pas de Côté",
-        imageUrl: "https://patrickbetheuil.com/images/20-LePasDeCôté.webp",
+        imageUrl: "/images/20-LePasDeCôté.webp",
         price: 100,
         description: `Le Pas de Côté dégage une énergie vibrante et fluide, évoquant un
 mouvement inattendu ou une déviation subtile du chemin tracé. Les
@@ -240,7 +225,7 @@ nouvelles perspectives.`,
       },
       {
         title: "L'Insecte",
-        imageUrl: "https://patrickbetheuil.com/images/21-L'Insecte.webp",
+        imageUrl: "/images/21-L'Insecte.webp",
         price: 100,
         description: `L'Insecte est une composition qui évoque la légèreté et la complexité
 des formes naturelles, rappelant la structure d’un insecte en vol. Les
@@ -257,7 +242,7 @@ nature.`,
       },
       {
         title: "L'Envol",
-        imageUrl: "https://patrickbetheuil.com/images/22-L'Envol.webp",
+        imageUrl: "/images/22-L'Envol.webp",
         price: 100,
         description: `L'Envol dépeint une énergie vibrante et fluide, capturant l'instant où
 une forme ou un être prend son essor. Les lignes courbes et
@@ -276,8 +261,7 @@ d’un rêve nourri par une force intérieure.`,
       },
       {
         title: "La Méditation du Samouraï",
-        imageUrl:
-          "https://patrickbetheuil.com/images/23-LaMéditationDuSamouraï.webp",
+        imageUrl: "/images/23-LaMéditationDuSamouraï.webp",
         price: 150.0,
         description: `La Méditation du Samouraï est une oeuvre imprégnée de puissance et
 de calme introspectif, capturant un moment de profonde réflexion. La
@@ -297,14 +281,13 @@ traits essentiels de l'esprit du samouraï.`,
       },
       {
         title: "Le Poisson de l'Espérance",
-        imageUrl:
-          "https://patrickbetheuil.com/images/24-LePoissonDeL'Espérance.webp",
+        imageUrl: "/images/24-LePoissonDeL'Espérance.webp",
         price: 100,
         description: `Le Poisson de l’Espérance symbolise fluidité et optimisme à travers des formes organiques et des couleurs vives. Le poisson, stylisé avec des lignes élégantes et des courbes gracieuses, semble nager avec légèreté dans un courant imaginaire. Les teintes dominantes de bleu, noir, vert, et orange évoquent la profondeur de l'océan et la chaleur de la lumière, créant un contraste harmonieux. Le rouge éclatant au centre, rappelant un oeil ou un point focal, symbolise l’espoir, la vie ou un but à atteindre. Les motifs fins, notamment les touches dorées et les formes végétales, apportent richesse et sérénité à l’oeuvre. Le mouvement suggéré par les lignes ondulantes donne l'impression d’un poisson se déplaçant librement, guidé par une force invisible et pleine de promesses. Cette composition incarne l’idée d’un voyage vers l’espoir, où chaque mouvement est empreint de grâce et de positivité, soulignant la beauté de la quête et la puissance de l’espérance.`,
       },
       {
         title: "Le Pont de l'Île",
-        imageUrl: "https://patrickbetheuil.com/images/25-LePontDeLIle.webp",
+        imageUrl: "/images/25-LePontDeLile.webp",
         price: 150,
         description: `Le Pont de l'Île est une scène paisible et évocatrice, où un pont
 délicat traverse un paysage serein et harmonieux. Les teintes douces
@@ -316,13 +299,13 @@ nuances sombres et dorées, apporte une profondeur visuelle qui
 renforce l'idée d’un lieu tranquille et enchanteur. Les collines
 arrondies et les reflets aqueux au premier plan évoquent une île
 baignée de lumière, entourée d’une atmosphère douce et apaisante.
-L'oeuvre transporte le spectateur vers un lieu de transition, où le pont
+L'oeuvre transporte lme spectateur vers un lieu de transition, où le pont
 devient un symbole de passage vers de nouveaux horizons, capturant
 la beauté subtile de la nature environnante.`,
       },
       {
         title: "Les Danseuses",
-        imageUrl: "https://patrickbetheuil.com/images/26-LesDanseuses.webp",
+        imageUrl: "/images/26-LesDanseuses.webp",
         price: 200,
         description: `Les Danseuses est une composition vibrante et dynamique où des
 formes abstraites semblent prendre vie dans un ballet gracieux. Les
@@ -341,7 +324,7 @@ artistique avec vivacité et intensité.`,
       },
       {
         title: "Les Neurones",
-        imageUrl: "https://patrickbetheuil.com/images/27-LesNeurones.webp",
+        imageUrl: "/images/27-LesNeurones.webp",
         price: 150,
         description: `Les Neurones est une oeuvre abstraite et organique qui illustre les
 connexions complexes et dynamiques du cerveau. Les formes
@@ -362,7 +345,7 @@ l’activité intérieure invisible.`,
       },
       {
         title: "L'Echo des Oiseaux",
-        imageUrl: "https://patrickbetheuil.com/images/28-L'EchoDesOiseaux.webp",
+        imageUrl: "/images/28-L'EchoDesOiseaux.webp",
         price: 100.0,
         description: `L'Écho des Oiseaux est une oeuvre éthérée et mystérieuse, où des
 formes abstraites rappellent des silhouettes d'oiseaux en plein vol, se
@@ -382,16 +365,15 @@ l'univers.`,
       },
       {
         title: "Les Aras",
-        imageUrl: "https://patrickbetheuil.com/images/29-LesAras.webp",
+        imageUrl: "/images/29-LesAras.webp",
         price: 150,
         description: `Les Aras est une oeuvre vibrante et colorée qui capture l'essence flamboyante de ces oiseaux exotiques. Les teintes vives de rouge, bleu, jaune, et vert évoquent les plumes éclatantes des aras, tandis que les formes ondulantes suggèrent le mouvement fluide et majestueux de leurs ailes en plein vol. Les éclats de lumière et les textures délicates insufflent vie et énergie à la composition, comme si les oiseaux étaient en train de s'envoler, remplissant l'air de couleurs et de dynamisme. Les motifs organiques et les touches de jaune doré rappellent la chaleur tropicale, un environnement luxuriant et plein de vitalité. Les détails texturés évoquent la lumière du soleil filtrant à travers le feuillage environnant. Chaque élément de cette composition contribue à une impression de liberté, de mouvement, et de beauté naturelle. Elle célèbre la splendeur des aras, leur éclat et leur caractère unique, tout en capturant la grâce et la liberté qu'ils incarnent dans leur environnement tropical.`,
       },
       {
         title: "L'Autre Vie",
-        imageUrl: "https://patrickbetheuil.com/images/30-L'AutreVie.webp",
+        imageUrl: "/images/30-L'AutreVie.webp",
         price: 100,
-        description: `L'Autre Vie est une oeuvre intrigante et énigmatique qui semble
-évoquer des mondes parallèles ou des réalités invisibles. Les teintes
+        description: `L'Autre Vie est une oeuvre intrigante et énigmatique qui semble évoquer des mondes parallèles ou des réalités invisibles. Les teintes
 chaudes d'orange et de jaune contrastent avec les nuances
 profondes de bleu et de violet, créant une impression de profondeur
 et de mystère. Les formes organiques et textures vives s'entrelacent
@@ -410,7 +392,7 @@ l'essence de l'inconnu et du potentiel infini.`,
 
       {
         title: "La Fragmentation",
-        imageUrl: "https://patrickbetheuil.com/images/31-LaFragmentation.webp",
+        imageUrl: "/images/31-LaFragmentation.webp",
         price: 100,
         description: `La Fragmentation est une oeuvre dynamique qui explore l'idée de
 décomposition et de transformation. Les formes éclatées et
@@ -430,7 +412,7 @@ chaque séparation peut révéler un nouveau potentiel caché.`,
       },
       {
         title: "La Naissance",
-        imageUrl: "https://patrickbetheuil.com/images/32-LaNaissance.webp",
+        imageUrl: "/images/32-LaNaissance.webp",
         price: 100,
         description: `La Naissance est une oeuvre éclatante et vibrante qui évoque
 l'émergence de la vie et la création. Le centre lumineux, entouré de
@@ -449,7 +431,7 @@ beauté de la naissance.`,
       },
       {
         title: "La Nebuleuse",
-        imageUrl: "https://patrickbetheuil.com/images/33-LaNebuleuse.webp",
+        imageUrl: "/images/33-LaNebuleuse.webp",
         price: 100,
         description: `La Nébuleuse est une oeuvre captivante qui évoque les mystères
 cosmiques et l’immensité de l’univers. Les formes diffuses et les
@@ -470,7 +452,7 @@ l’inconnu.`,
       },
       {
         title: "L'Aile Perdue",
-        imageUrl: "https://patrickbetheuil.com/images/34-L'AilePerdue.webp",
+        imageUrl: "/images/34-L'AilePerdue.webp",
         price: 150,
         description: `L'Aile Perdue est une oeuvre à la fois intense et poétique, qui capture
 l'essence de la fragilité et de la résilience. La forme centrale,
@@ -491,7 +473,7 @@ humain.`,
       },
       {
         title: "La Fragmentation",
-        imageUrl: "https://patrickbetheuil.com/images/35-LaFragmentation.webp",
+        imageUrl: "/images/35-LaFragmentation.webp",
         price: 100,
         description: `La Fragmentation est une oeuvre vibrante et complexe qui explore
 l'idée de déconstruction et de transformation. Les formes allongées,
@@ -511,8 +493,7 @@ inévitable de la vie et de la croissance.`,
       },
       {
         title: "L'Enlacement Aquatique",
-        imageUrl:
-          "https://patrickbetheuil.com/images/36-L'EnlacementAquatique.webp",
+        imageUrl: "/images/36-L'EnlacementAquatique.webp",
         price: 100,
         description: `L'Enlacement Aquatique est une oeuvre fluide et harmonieuse, où les
 courbes sinueuses et ondulées évoquent des mouvements
@@ -533,7 +514,7 @@ l’élégance et la beauté du monde sous-marin.`,
       },
       {
         title: "L'Incertitude",
-        imageUrl: "https://patrickbetheuil.com/images/37-L'Incertitude.webp",
+        imageUrl: "/images/37-L'Incertitude.webp",
         price: 100,
         description: `L'Incertitude est une oeuvre captivante qui exprime la complexité et
 l'ambiguïté des moments où tout semble en suspension. Les formes
@@ -552,7 +533,7 @@ l'incertitude, il existe une forme de grâce et de fluidité.`,
       },
       {
         title: "La Nostalgie",
-        imageUrl: "https://patrickbetheuil.com/images/38-LaNostalgie.webp",
+        imageUrl: "/images/38-LaNostalgie.webp",
         price: 100,
         description: `La Nostalgie est une oeuvre vibrante et pleine d'émotion, où les
 formes complexes et entrelacées semblent capturer des fragments de
@@ -574,8 +555,7 @@ vibrantes, chaque détail semblant évoquer une histoire ou une
       },
       {
         title: "La Prise de Décision",
-        imageUrl:
-          "https://patrickbetheuil.com/images/39-LaPriseDeDécision.webp",
+        imageUrl: "/images/39-LaPriseDeDécision.webp",
         price: 150,
         description: `La Prise de Décision est une oeuvre énergique et captivante qui
 illustre la complexité et la tension intérieure d'un moment crucial de
@@ -596,7 +576,7 @@ tumulte intérieur et la beauté du processus de réflexion.`,
       },
       {
         title: "L'Embrasement",
-        imageUrl: "https://patrickbetheuil.com/images/40-L'Embrasement.webp",
+        imageUrl: "/images/40-L'Embrasement.webp",
         price: 100,
         description: `L'Embrasement est une oeuvre vibrante et intense qui évoque une
 explosion de chaleur et d'énergie. Les teintes éclatantes de jaune,
@@ -617,8 +597,7 @@ incandescent.`,
       },
       {
         title: "La Prise de Conscience",
-        imageUrl:
-          "https://patrickbetheuil.com/images/41-LaPriseDeConscience.webp",
+        imageUrl: "/images/41-LaPriseDeConscience.webp",
         price: 200,
         description: `La Prise de Conscience est une oeuvre saisissante qui représente
 l'éveil intérieur et la révélation de soi. Les formes entrelacées, aux
@@ -640,7 +619,7 @@ environnement.`,
       },
       {
         title: "L'Émergence",
-        imageUrl: "https://patrickbetheuil.com/images/42-lemergence.webp",
+        imageUrl: "/images/42-L'Émergence.webp",
         price: 80,
         description: `L'Émergence est une oeuvre délicate et élégante qui capture le
 moment précis où la vie ou l'idée se manifeste. Les formes végétales
@@ -660,7 +639,7 @@ contemplation et à l’admiration du processus de croissance.`,
       },
       {
         title: "La Dissociation",
-        imageUrl: "https://patrickbetheuil.com/images/43-LaDissociation.webp",
+        imageUrl: "/images/43-LaDissociation.webp",
         price: 100,
         description: `La Dissociation est une oeuvre marquante qui illustre la fragmentation
 et la séparation intérieure ou extérieure. Les teintes froides de bleu,
@@ -681,7 +660,7 @@ créative.`,
       },
       {
         title: "La Mutation",
-        imageUrl: "https://patrickbetheuil.com/images/44-LaMutation.webp",
+        imageUrl: "/images/44-LaMutation.webp",
         price: 100,
         description: `La Mutation explore les thèmes de la transformation et du
 changement profond. Les formes sinueuses, rappelant des courbes

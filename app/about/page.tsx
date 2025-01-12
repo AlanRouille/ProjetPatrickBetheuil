@@ -8,17 +8,13 @@ import { Header } from "../_components/Header";
 import { Section } from "../_components/Section";
 
 export default function AboutPage() {
-  // États pour gérer l'animation d'apparition
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    // Ajouter la classe no-scroll quand le composant est monté
-    document.body.classList.add("no-scroll");
-
-    // Démarrer l'animation après le montage du composant
+    if (window.innerWidth > 768) {
+      document.body.classList.add("no-scroll");
+    }
     setIsLoaded(true);
-
-    // Supprimer la classe no-scroll quand le composant est démonté
     return () => {
       document.body.classList.remove("no-scroll");
     };
@@ -29,11 +25,10 @@ export default function AboutPage() {
       <Header showLogo={false} />
       <main className="h-screen overflow-hidden flex items-center justify-center">
         <div
-          className={`flex flex-col lg:flex-row items-center lg:items-start justify-between max-w-7xl mx-auto p-8 gap-8 transition-opacity duration-1000 ${
+          className={`flex flex-col lg:flex-row items-center lg:items-start justify-between max-w-7xl mx-auto p-4 gap-4 transition-opacity duration-1000 ${
             isLoaded ? "opacity-100" : "opacity-0"
           }`}
         >
-          {/* Image à gauche avec animation de fondu */}
           <div
             className={`flex-shrink-0 transform transition-all duration-1000 ${
               isLoaded
@@ -50,7 +45,6 @@ export default function AboutPage() {
             />
           </div>
 
-          {/* Texte à droite avec animation de fondu */}
           <div
             className={`lg:w-1/2 text-left transform transition-all duration-1000 delay-200 ${
               isLoaded
@@ -58,10 +52,10 @@ export default function AboutPage() {
                 : "translate-y-10 opacity-0"
             }`}
           >
-            <h1 className="font-title font-light text-white text-shadow-sm text-6xl mb-16">
+            <h1 className="font-title font-light text-white text-shadow-sm text-4xl md:text-6xl mb-8">
               L&apos;artiste
             </h1>
-            <p className="font-sans font-normal text-white mb-16 leading-relaxed">
+            <p className="font-sans font-normal text-white mb-8 leading-relaxed text-sm md:text-base">
               Patrick Bétheuil, né en 1959 à Neuilly-sur-Seine, a été fortement
               influencé par son grand-père, développant dès son enfance un goût
               pour le travail manuel, notamment à travers la fabrication
@@ -74,25 +68,24 @@ export default function AboutPage() {
               encres aquarellables et des matières naturelles sur de grands
               formats.
             </p>
-            <div className="flex space-x-4">
-              {/* Lien vers le PDF de la Biographie avec animation de fondu */}
+            <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
               <a
                 href="/documents/biographie.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Button className="w-40 h-9 bg-primary-orange rounded-sm hover:bg-orange-600 text-white py-2 px-4 shadow-lg transform transition-all duration-200 ease-in-out hover:scale-95 hover:shadow-md">
+                <Button className="w-52 mx-auto block h-9 bg-primary-orange rounded-sm hover:bg-orange-600 text-white py-2 px-4 shadow-lg transform transition-all duration-200 ease-in-out hover:scale-95 hover:shadow-md">
                   Biographie
                 </Button>
               </a>
 
-              {/* Nouveau bouton pour un autre PDF avec animation de fondu */}
               <a
                 href="/documents/Approche&Technique.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
+                className="flex justify-center"
               >
-                <Button className="w-45 h-9 bg-primary-orange rounded-sm hover:bg-orange-600 text-white py-2 px-4 shadow-lg transform transition-all duration-200 ease-in-out hover:scale-95 hover:shadow-md">
+                <Button className="w-52 block h-9 bg-primary-orange rounded-sm hover:bg-orange-600 text-white py-2 px-4 shadow-lg transform transition-all duration-200 ease-in-out hover:scale-95 hover:shadow-md">
                   Approche et Techniques
                 </Button>
               </a>
