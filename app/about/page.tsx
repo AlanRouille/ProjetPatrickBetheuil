@@ -70,7 +70,7 @@ export default function AboutPage() {
             </p>
             <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
               <a
-                href="/documents/biographie.pdf"
+                href="/documents/Biographie.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
               >
