@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Montserrat, Open_Sans } from "next/font/google";
+import Head from "next/head";
 import Background from "./_components/AnimateBackground"; // Assurez-vous que le chemin est correct
 import AppLoader from "./_components/AppLoader";
 import { AudioProvider } from "./context/AudioContext";
@@ -31,6 +32,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className="h-full">
+      <Head>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <PanierProvider>
         <body className={cn(montserrat, openSans)}>
           <Background /> {/* Ajout du background animé */}

@@ -30,7 +30,7 @@ export default async function handler(
         currency: "eur",
         product_data: {
           name: item.title,
-          images: [item.imageUrl],
+          images: [`${req.headers.origin}${item.imageUrl}`], // URL absolue
         },
         unit_amount: item.price * 100,
       },
@@ -43,7 +43,7 @@ export default async function handler(
         currency: "eur",
         product_data: {
           name: "Frais d'expédition",
-          images: ["URL_DE_L_IMAGE_DE_FRAIS_D_EXPEDITION"],
+          images: [`${req.headers.origin}/images/shipping.webp`], // URL complète pour l'image des frais d'expédition
         },
         unit_amount: shippingCost,
       },
