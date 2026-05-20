@@ -18,10 +18,21 @@ export default async function handler(
       // Récupérer la session de paiement
       const session = await stripe.checkout.sessions.retrieve(session_id);
 
-      // Mettre à jour le statut dans la base de données
-      await prisma.paymentSession.update({
+      const order = await prisma.order.update({
         where: { stripeSessionId: session.id },
-        data: { status: "completed" }, // Mettre à jour le statut
+        data: {
+          status: "PAID",
+          stripePaymentId:
+            typeof session.payment_intent === "string"
+              ? session.payment_intent
+              : session.payment_intent?.id,
+        },
+        include: { items: true },
+      });
+
+      await prisma.artwork.updateMany({
+        where: { id: { in: order.items.map((item) => item.artworkId) } },
+        data: { status: "SOLD" },
       });
 
       res.status(200).json({ message: "Paiement réussi" });

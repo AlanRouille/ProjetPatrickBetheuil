@@ -53,32 +53,40 @@ export default async function handler(
     try {
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],
+        customer_email: email,
         line_items,
         mode: "payment",
-        success_url: `${req.headers.origin}/success`,
+        success_url: `${req.headers.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${req.headers.origin}/cancel`,
       });
 
       const totalPrice = session.amount_total ?? 0;
 
-      // Enregistrer l'historique de paiement
-      await prisma.paymentSession.create({
+      const user = await prisma.user.upsert({
+        where: { email },
+        update: {},
+        create: { email },
+      });
+
+      await prisma.order.create({
         data: {
-          email,
-          artworks: JSON.stringify(items),
+          userId: user.id,
           stripeSessionId: session.id,
-          status: "pending",
+          status: "PENDING",
           totalPrice,
+          items: {
+            create: items.map((item) => ({
+              artworkId: item.id,
+              price: item.price,
+            })),
+          },
         },
       });
 
-      // Mettre à jour l'état de l'œuvre lors de l'achat
-      for (const item of items) {
-        await prisma.artwork.update({
-          where: { id: item.id },
-          data: { isSoldOut: true },
-        });
-      }
+      await prisma.artwork.updateMany({
+        where: { id: { in: items.map((item) => item.id) } },
+        data: { status: "RESERVED" },
+      });
 
       res.status(200).json({ id: session.id, url: session.url });
     } catch (error) {

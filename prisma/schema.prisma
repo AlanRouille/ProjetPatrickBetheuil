@@ -6,32 +6,98 @@
 
 // prisma/schema.prisma
 datasource db {
-  provider  = "postgresql"
-  url  	    = env("DATABASE_URL")
-  // uncomment next line if you use Prisma <5.10
-  // directUrl = env("DATABASE_URL_UNPOOLED")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 generator client {
   provider = "prisma-client-js"
 }
 
-   model Artwork {
-     id          Int     @id @default(autoincrement())
-     title       String
-     imageUrl    String
-     price       Float
-     description String?
-     isSoldOut   Boolean  @default(false) // Assurez-vous que cette ligne existe
-   }
+enum ArtworkStatus {
+  AVAILABLE
+  SOLD
+  RESERVED
+}
 
-model PaymentSession {
-  id              String   @id @default(uuid())
-  email           String
-  artworks        String   // JSON string des œuvres
-  stripeSessionId String   @unique
-  status          String
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  totalPrice      Float
+enum OrderStatus {
+  PENDING
+  PAID
+  SHIPPED
+  DELIVERED
+  CANCELED
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  firstName String?
+  lastName  String?
+  phone     String?
+  orders    Order[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Artwork {
+  id              Int            @id @default(autoincrement())
+  title           String
+  slug            String         @unique
+  imageUrl        String         @unique
+  price           Float
+  description     String?
+  technique       String?
+  dimensions      String?
+  year            Int?
+  metaTitle       String?
+  metaDescription String?
+  status          ArtworkStatus  @default(AVAILABLE)
+  images          ArtworkImage[]
+  orderItems      OrderItem[]
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+}
+
+model ArtworkImage {
+  id        String   @id @default(uuid())
+  artworkId Int
+  artwork   Artwork  @relation(fields: [artworkId], references: [id], onDelete: Cascade)
+  imageUrl  String
+  alt       String?
+  position  Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@unique([artworkId, position])
+}
+
+model Order {
+  id               String      @id @default(uuid())
+  userId           String
+  user             User        @relation(fields: [userId], references: [id])
+  status           OrderStatus @default(PENDING)
+  stripeSessionId  String?     @unique
+  stripePaymentId  String?
+  totalPrice       Float
+  shippingName     String?
+  shippingAddress1 String?
+  shippingAddress2 String?
+  shippingCity     String?
+  shippingPostal   String?
+  shippingCountry  String?
+  trackingNumber   String?
+  shippedAt        DateTime?
+  deliveredAt      DateTime?
+  items            OrderItem[]
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+}
+
+model OrderItem {
+  id        String   @id @default(uuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  artworkId Int
+  artwork   Artwork  @relation(fields: [artworkId], references: [id])
+  price     Float
+  createdAt DateTime @default(now())
 }

@@ -17,13 +17,28 @@ interface ArtworkDetailsProps {
 async function getArtwork(id: number): Promise<ArtworkDetailsProps | null> {
   const artwork = await prisma.artwork.findUnique({
     where: { id: id },
+    select: {
+      id: true,
+      title: true,
+      imageUrl: true,
+      price: true,
+      description: true,
+      status: true,
+    },
   });
 
   if (!artwork) {
     return null;
   }
 
-  return artwork as ArtworkDetailsProps;
+  return {
+    id: artwork.id,
+    title: artwork.title,
+    imageUrl: artwork.imageUrl,
+    price: artwork.price,
+    description: artwork.description ?? "",
+    isSoldOut: artwork.status === "SOLD" || artwork.status === "RESERVED",
+  };
 }
 
 export default async function ArtworkDetails({

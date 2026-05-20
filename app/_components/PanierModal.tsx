@@ -7,7 +7,7 @@ import React, { useState } from "react";
 import { usePanier } from "../context/PanierContext";
 
 const stripePromise = loadStripe(
-  "pk_test_51QCLr5EAABLLRF7E7kf9Zb0GyTOnZyAtGqU7MfOQ3YqTuWh5KFEigobiVsIQ87Apg2jdE06kB8FvY9h8hx38E8HD00W8NAgaHM"
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? ""
 );
 
 const PanierModal: React.FC = () => {
