@@ -34,3 +34,45 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Tunnel d’achat
+
+Le paiement utilise Stripe Checkout. Une œuvre est réservée pendant la session,
+puis marquée comme vendue uniquement après confirmation du paiement par le
+webhook Stripe.
+
+Variables nécessaires :
+
+```bash
+NEXT_PUBLIC_SITE_URL="https://votre-domaine.fr"
+STRIPE_SECRET_KEY="sk_..."
+STRIPE_WEBHOOK_SECRET="whsec_..."
+ORDER_NOTIFICATION_EMAIL="pbetheuil.art@gmail.com"
+EMAIL_FROM="Patrick Betheuil <commandes@votre-domaine.fr>"
+RESEND_API_KEY="re_..."
+```
+
+`RESEND_API_KEY` est recommandé en production. Sans cette variable, le site
+utilise `EMAIL_USER` et `EMAIL_PASS`.
+
+Le webhook Stripe doit pointer vers :
+
+```text
+https://votre-domaine.fr/api/webhook
+```
+
+Événements à activer :
+
+- `checkout.session.completed`
+- `checkout.session.async_payment_succeeded`
+- `checkout.session.async_payment_failed`
+- `checkout.session.expired`
+
+Test local du webhook :
+
+```bash
+stripe listen --forward-to localhost:3000/api/webhook
+```
+
+Copier le secret `whsec_...` affiché par Stripe CLI dans
+`STRIPE_WEBHOOK_SECRET`, puis relancer le serveur.

@@ -1,12 +1,11 @@
 import { prisma } from "@/lib/prisma";
+import { getStripe } from "@/lib/stripe";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2024-09-30.acacia",
-});
-
 const shippingCost = 590;
+const allowedShippingCountries: Stripe.Checkout.SessionCreateParams.ShippingAddressCollection.AllowedCountry[] =
+  ["FR", "BE", "LU", "DE", "ES", "IT", "NL", "CH"];
 
 class CheckoutError extends Error {
   constructor(message: string, readonly status: number) {
@@ -51,7 +50,9 @@ export async function POST(request: Request) {
       );
     }
 
-    const origin = request.headers.get("origin") ?? new URL(request.url).origin;
+    const siteUrl =
+      process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
+      new URL(request.url).origin;
 
     const { order, artworks } = await prisma.$transaction(async (tx) => {
       const artworks = await tx.artwork.findMany({
@@ -124,6 +125,8 @@ export async function POST(request: Request) {
       return { order, artworks };
     });
 
+    let stripeSessionId: string | null = null;
+
     try {
       const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] =
         artworks.map((artwork) => ({
@@ -152,19 +155,40 @@ export async function POST(request: Request) {
         quantity: 1,
       });
 
-      const session = await stripe.checkout.sessions.create({
-        payment_method_types: ["card"],
-        customer_email: email,
-        line_items: lineItems,
-        mode: "payment",
-        success_url: `${origin}/commande/succes`,
-        cancel_url: `${origin}/commande/annulee`,
-        expires_at: Math.floor(Date.now() / 1000) + 30 * 60,
-        metadata: {
-          orderId: order.id,
-          artworkIds: artworkIds.join(","),
+      const stripe = getStripe();
+      const session = await stripe.checkout.sessions.create(
+        {
+          payment_method_types: ["card"],
+          customer_email: email,
+          customer_creation: "always",
+          client_reference_id: order.id,
+          line_items: lineItems,
+          mode: "payment",
+          locale: "fr",
+          billing_address_collection: "required",
+          shipping_address_collection: {
+            allowed_countries: allowedShippingCountries,
+          },
+          phone_number_collection: {
+            enabled: true,
+          },
+          invoice_creation: {
+            enabled: true,
+          },
+          success_url: `${siteUrl}/commande/succes?session_id={CHECKOUT_SESSION_ID}`,
+          cancel_url: `${siteUrl}/commande/annulee?session_id={CHECKOUT_SESSION_ID}`,
+          expires_at: Math.floor(Date.now() / 1000) + 30 * 60,
+          metadata: {
+            orderId: order.id,
+            artworkIds: artworkIds.join(","),
+          },
         },
-      });
+        {
+          idempotencyKey: `checkout-${order.id}`,
+        }
+      );
+
+      stripeSessionId = session.id;
 
       await prisma.order.update({
         where: { id: order.id },
@@ -173,6 +197,17 @@ export async function POST(request: Request) {
 
       return NextResponse.json({ id: session.id, url: session.url });
     } catch (error) {
+      if (stripeSessionId) {
+        try {
+          await getStripe().checkout.sessions.expire(stripeSessionId);
+        } catch (stripeError) {
+          console.error(
+            `Impossible d’expirer la session Stripe ${stripeSessionId} :`,
+            stripeError
+          );
+        }
+      }
+
       await prisma.$transaction([
         prisma.order.update({
           where: { id: order.id },
@@ -188,14 +223,15 @@ export async function POST(request: Request) {
     }
   } catch (error) {
     console.error("Erreur lors de la création de la session Stripe:", error);
+    const checkoutError = error instanceof CheckoutError ? error : null;
+
     return NextResponse.json(
       {
         error:
-          error instanceof Error
-            ? error.message
-            : "Erreur lors de la préparation de l'acquisition.",
+          checkoutError?.message ??
+          "Erreur lors de la préparation de l'acquisition.",
       },
-      { status: error instanceof CheckoutError ? error.status : 500 }
+      { status: checkoutError?.status ?? 500 }
     );
   }
 }

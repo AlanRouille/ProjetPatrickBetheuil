@@ -24,6 +24,7 @@ interface PanierContextType {
   setShowPanierSidebar: (show: boolean) => void;
   addArtwork: (artwork: PanierArtwork) => void;
   removeArtwork: (id: number) => void;
+  clearCart: () => void;
   selectArtwork: (artwork: PanierArtwork) => void;
 }
 
@@ -91,6 +92,12 @@ export function PanierProvider({ children }: PropsWithChildren) {
     setSelectedArtwork(artwork);
   }, []);
 
+  const clearCart = useCallback(() => {
+    setArtworks([]);
+    setSelectedArtwork(null);
+    setShowPanierSidebar(false);
+  }, []);
+
   const value = useMemo(
     () => ({
       showPanierSidebar,
@@ -99,11 +106,13 @@ export function PanierProvider({ children }: PropsWithChildren) {
       selectedArtwork,
       addArtwork,
       removeArtwork,
+      clearCart,
       selectArtwork,
     }),
     [
       addArtwork,
       artworks,
+      clearCart,
       removeArtwork,
       selectedArtwork,
       selectArtwork,

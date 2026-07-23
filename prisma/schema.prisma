@@ -78,6 +78,9 @@ model Order {
   stripeSessionId  String?     @unique
   stripePaymentId  String?
   totalPrice       Float
+  paidAt           DateTime?
+  buyerEmailSentAt DateTime?
+  adminEmailSentAt DateTime?
   shippingName     String?
   shippingAddress1 String?
   shippingAddress2 String?

@@ -1,6 +1,19 @@
 import Link from "next/link";
+import { CancelCheckoutClient } from "./CancelCheckoutClient";
 
-export default function AcquisitionCanceledPage() {
+interface AcquisitionCanceledPageProps {
+  searchParams: {
+    session_id?: string;
+  };
+}
+
+export default function AcquisitionCanceledPage({
+  searchParams,
+}: AcquisitionCanceledPageProps) {
+  const sessionId = searchParams.session_id?.startsWith("cs_")
+    ? searchParams.session_id
+    : null;
+
   return (
     <main className="flex min-h-screen items-center justify-center bg-primary-black px-6 text-white">
       <section className="max-w-3xl text-center">
@@ -11,14 +24,15 @@ export default function AcquisitionCanceledPage() {
           Le règlement n’a pas été finalisé
         </h1>
         <p className="mx-auto mt-6 max-w-xl font-sans text-base leading-8 text-white/75">
-          Votre sélection n’a pas été confirmée. Vous pouvez revenir à la
-          galerie et reprendre votre parcours d’acquisition.
+          Aucun règlement n’a été effectué. Vos œuvres restent dans votre
+          panier afin que vous puissiez reprendre votre acquisition.
         </p>
+        <CancelCheckoutClient sessionId={sessionId} />
         <Link
           href="/projets"
-          className="mt-10 inline-flex rounded-sm bg-primary-orange px-7 py-3 font-sans text-sm font-normal uppercase tracking-[0.18em] text-white transition-[background-color,transform,box-shadow] duration-500 ease-out hover:scale-[1.03] hover:bg-orange-600 hover:shadow-[0_14px_30px_rgba(0,0,0,0.32)] active:scale-100 active:shadow-none"
+          className="mt-4 inline-flex font-sans text-sm text-white/70 underline decoration-primary-orange underline-offset-4 transition-colors hover:text-white"
         >
-          Retour aux œuvres
+          Continuer dans la galerie
         </Link>
       </section>
     </main>
