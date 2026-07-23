@@ -1,11 +1,10 @@
 "use server";
 
 import { auth } from "@/auth";
-import { ArtworkStatus, PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
+import { ArtworkStatus } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-
-const prisma = new PrismaClient();
 
 function slugify(value: string) {
   return value

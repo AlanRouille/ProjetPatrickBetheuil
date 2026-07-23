@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import AudioPlayer from "../_components/AudioPlayer";
 import { Header } from "../_components/Header";
 
 export default function HomePage() {
@@ -21,7 +20,7 @@ export default function HomePage() {
       <Header />
       <main className="flex flex-col items-center justify-center h-full">
         <ul className="flex flex-col lg:flex-row lg:space-x-40 font-light font-title text-3xl md:text-4xl lg:text-6xl mb-32 space-y-4 lg:space-y-0">
-          <Link href="/about">
+          <Link href="/#about">
             <li
               className={`menu-item transform transition-transform duration-300 cursor-pointer text-center hover:scale-125 sm:mb-7 ${
                 activeIndex === 0 ? "active" : ""
@@ -55,9 +54,6 @@ export default function HomePage() {
             </li>
           </Link>
         </ul>
-        <div className="fixed bottom-4 right-4 text-white">
-          <AudioPlayer />
-        </div>
       </main>
     </div>
   );

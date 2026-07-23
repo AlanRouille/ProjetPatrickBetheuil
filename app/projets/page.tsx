@@ -1,8 +1,9 @@
-import { PrismaClient } from "@prisma/client";
-import { Header } from "../_components/Header";
+import { Footer } from "@/components/layout/Footer";
+import { Header } from "@/components/layout/Header";
+import { prisma } from "@/lib/prisma";
 import ProjetPageClient from "./ProjetPageClient";
 
-const prisma = new PrismaClient();
+export const dynamic = "force-dynamic";
 
 async function getProjets() {
   const projets = await prisma.artwork.findMany({
@@ -26,9 +27,10 @@ export default async function ProjetPage() {
   const projets = await getProjets();
 
   return (
-    <div>
-      <Header showLogo={true} />
+    <main className="bg-pb-black text-pb-white">
+      <Header />
       <ProjetPageClient projets={projets} />
-    </div>
+      <Footer />
+    </main>
   );
 }

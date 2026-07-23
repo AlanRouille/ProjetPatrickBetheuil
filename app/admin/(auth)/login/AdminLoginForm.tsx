@@ -40,7 +40,7 @@ export function AdminLoginForm() {
       <div>
         <label
           htmlFor="email"
-          className="block text-sm font-medium text-[#F0F0EE]"
+          className="block text-sm font-medium text-pb-white"
         >
           Email
         </label>
@@ -52,14 +52,14 @@ export function AdminLoginForm() {
           required
           value={email}
           onChange={(event) => setEmail(event.target.value)}
-          className="mt-2 w-full rounded-sm border border-white/15 bg-black/35 px-4 py-3 text-[#F0F0EE] outline-none transition focus:border-[#F49C1A]"
+          className="mt-2 w-full rounded-sm border border-white/15 bg-black/35 px-4 py-3 text-pb-white outline-none transition focus:border-pb-accent"
         />
       </div>
 
       <div>
         <label
           htmlFor="password"
-          className="block text-sm font-medium text-[#F0F0EE]"
+          className="block text-sm font-medium text-pb-white"
         >
           Mot de passe
         </label>
@@ -71,12 +71,12 @@ export function AdminLoginForm() {
           required
           value={password}
           onChange={(event) => setPassword(event.target.value)}
-          className="mt-2 w-full rounded-sm border border-white/15 bg-black/35 px-4 py-3 text-[#F0F0EE] outline-none transition focus:border-[#F49C1A]"
+          className="mt-2 w-full rounded-sm border border-white/15 bg-black/35 px-4 py-3 text-pb-white outline-none transition focus:border-pb-accent"
         />
       </div>
 
       {error && (
-        <p className="border-l-2 border-[#F49C1A] bg-[#F49C1A]/10 px-4 py-3 text-sm text-[#F0F0EE]">
+        <p className="border-l-2 border-pb-accent bg-pb-accent/10 px-4 py-3 text-sm text-pb-white">
           {error}
         </p>
       )}
@@ -84,7 +84,7 @@ export function AdminLoginForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full rounded-sm bg-[#F49C1A] px-5 py-3 text-sm font-semibold uppercase tracking-wide text-black transition hover:bg-[#ffb347] disabled:cursor-not-allowed disabled:opacity-60"
+        className="w-full rounded-sm bg-pb-accent px-5 py-3 text-sm font-semibold uppercase tracking-wide text-pb-black transition hover:bg-pb-white disabled:cursor-not-allowed disabled:opacity-60"
       >
         {isSubmitting ? "Connexion..." : "Se connecter"}
       </button>

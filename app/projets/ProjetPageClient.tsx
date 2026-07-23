@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import AudioPlayer from "../_components/AudioPlayer";
 
 interface Projet {
   id: number;
@@ -21,14 +20,6 @@ export const ProjetPageClient = ({ projets }: { projets: Projet[] }) => {
       setShowCards(true);
     }, 200);
   }, []);
-
-  const scrollUp = () => {
-    window.scrollBy({ top: -450, behavior: "smooth" });
-  };
-
-  const scrollDown = () => {
-    window.scrollBy({ top: 450, behavior: "smooth" });
-  };
 
   const handleMouseMove = (e: React.MouseEvent, index: number) => {
     const card = cardRefs.current[index];
@@ -49,22 +40,12 @@ export const ProjetPageClient = ({ projets }: { projets: Projet[] }) => {
   };
 
   return (
-    <div className="relative min-h-screen flex flex-col items-center justify-center pt-20">
-      <div className="flex w-full mx-auto relative">
-        {/* Flèche haut */}
-        <button
-          onClick={scrollUp}
-          className="hidden md:block fixed left-4 lg:left-28 top-1/2 transform -translate-y-1/2 transition-transform duration-300 hover:scale-125 z-10"
-        >
-          <Image
-            src="/images/Arrow-gauche.svg"
-            alt="Flèche gauche"
-            width={16} // Taille ajustée pour écrans larges
-            height={16}
-          />
-        </button>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 lg:gap-x-14 md:gap-x-0 gap-y-14 px-6 lg:px-20 scroll-smooth mb-12 mx-auto">
+    <section
+      data-header-theme="light"
+      className="relative flex min-h-screen flex-col items-center justify-center bg-pb-black pb-20 pt-36 text-pb-white md:pt-44"
+    >
+      <div className="relative mx-auto flex w-full">
+        <div className="mx-auto mb-12 grid w-full max-w-[1180px] grid-cols-1 gap-y-16 px-5 scroll-smooth sm:grid-cols-2 sm:gap-x-8 sm:gap-y-14 sm:px-8 md:gap-x-10 md:px-10 lg:gap-x-14 lg:px-0">
           {projets.map((projet, index) => (
             <div
               key={projet.id}
@@ -80,16 +61,16 @@ export const ProjetPageClient = ({ projets }: { projets: Projet[] }) => {
                   ref={(el) => {
                     cardRefs.current[index] = el;
                   }}
-                  className="cursor-pointer shadow-lg card relative w-full h-[150px] md:w-[300px] md:h-[200px] lg:w-[500px] lg:h-[400px] mx-auto overflow-hidden transition-transform duration-500 ease-in-out transform group-hover:scale-90"
+                  className="card relative mx-auto aspect-[5/4] w-full cursor-pointer overflow-hidden shadow-lg transition-transform duration-500 ease-in-out group-hover:scale-[0.98] lg:h-[400px] lg:w-[500px] lg:aspect-auto"
                   onMouseMove={(e) => handleMouseMove(e, index)}
                   onMouseLeave={() => handleMouseLeave(index)}
                 >
                   <Image
                     src={projet.imageUrl}
                     alt={projet.title}
-                    layout="fill"
-                    objectFit="cover"
-                    className="transition-transform duration-500 ease-in-out"
+                    fill
+                    sizes="(min-width: 1024px) 500px, (min-width: 640px) calc(50vw - 3rem), calc(100vw - 2.5rem)"
+                    className="object-cover transition-transform duration-500 ease-in-out"
                   />
                   {projet.isSoldOut && (
                     <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 text-white text-lg font-bold">
@@ -99,31 +80,15 @@ export const ProjetPageClient = ({ projets }: { projets: Projet[] }) => {
                 </div>
               </Link>
 
-              <h2 className="text-2xl font-sans font-thin text-shadow-sm text-white mt-8 transition-all duration-500 ease-in-out">
+              <h2 className="mt-5 font-sans text-xl font-thin text-white text-shadow-sm transition-all duration-500 ease-in-out sm:mt-6 sm:text-[1.35rem] md:text-2xl lg:mt-8">
                 {projet.title}
               </h2>
             </div>
           ))}
         </div>
 
-        {/* Flèche bas */}
-        <button
-          onClick={scrollDown}
-          className="hidden md:block fixed right-4 lg:right-28 top-1/2 transform -translate-y-1/2 transition-transform duration-300 hover:scale-125 z-10"
-        >
-          <Image
-            src="/images/Arrow-droite.svg"
-            alt="Flèche droite"
-            width={16} // Taille ajustée pour écrans larges
-            height={16}
-          />
-        </button>
       </div>
-
-      <div className="fixed bottom-4 right-4 text-white">
-        <AudioPlayer />
-      </div>
-    </div>
+    </section>
   );
 };
 

@@ -1,8 +1,16 @@
 "use client";
 
-import React, { createContext, useContext, useState } from "react";
+import {
+  type PropsWithChildren,
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
-interface Artwork {
+export interface PanierArtwork {
   id: number;
   title: string;
   imageUrl: string;
@@ -10,64 +18,108 @@ interface Artwork {
 }
 
 interface PanierContextType {
-  artworks: Artwork[];
-  selectedArtwork: Artwork | null;
+  artworks: PanierArtwork[];
+  selectedArtwork: PanierArtwork | null;
   showPanierSidebar: boolean;
   setShowPanierSidebar: (show: boolean) => void;
-  addArtwork: (artwork: Artwork) => void;
+  addArtwork: (artwork: PanierArtwork) => void;
   removeArtwork: (id: number) => void;
-  selectArtwork: (artwork: Artwork) => void;
+  selectArtwork: (artwork: PanierArtwork) => void;
 }
 
 const PanierContext = createContext<PanierContextType | undefined>(undefined);
+const panierStorageKey = "patrick-betheuil-panier";
 
-export const PanierProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+export function PanierProvider({ children }: PropsWithChildren) {
   const [showPanierSidebar, setShowPanierSidebar] = useState(false);
-  const [artworks, setArtworks] = useState<Artwork[]>([]);
-  const [selectedArtwork, setSelectedArtwork] = useState<Artwork | null>(null);
+  const [artworks, setArtworks] = useState<PanierArtwork[]>([]);
+  const [selectedArtwork, setSelectedArtwork] =
+    useState<PanierArtwork | null>(null);
+  const [hasHydrated, setHasHydrated] = useState(false);
 
-  const addArtwork = (artwork: Artwork) => {
-    const exists = artworks.some((item) => item.id === artwork.id);
-    if (!exists) {
-      setArtworks((prev) => [...prev, artwork]); // Ajoute l'œuvre au panier si elle n'est pas déjà présente
-      setSelectedArtwork(artwork); // Sélectionnez l'œuvre ajoutée
-    } else {
-      console.log(`L'œuvre ${artwork.title} est déjà dans le panier.`);
+  useEffect(() => {
+    try {
+      const storedPanier = window.localStorage.getItem(panierStorageKey);
+      if (storedPanier) {
+        const parsedPanier: unknown = JSON.parse(storedPanier);
+        if (Array.isArray(parsedPanier)) {
+          const validArtworks = parsedPanier.filter(
+            (item): item is PanierArtwork =>
+              typeof item === "object" &&
+              item !== null &&
+              typeof item.id === "number" &&
+              typeof item.title === "string" &&
+              typeof item.imageUrl === "string" &&
+              typeof item.price === "number"
+          );
+          setArtworks(validArtworks);
+        }
+      }
+    } catch (error) {
+      console.error("Impossible de restaurer le panier :", error);
+    } finally {
+      setHasHydrated(true);
     }
-  };
+  }, []);
 
-  const removeArtwork = (id: number) => {
+  useEffect(() => {
+    if (!hasHydrated) return;
+    try {
+      window.localStorage.setItem(panierStorageKey, JSON.stringify(artworks));
+    } catch (error) {
+      console.error("Impossible d’enregistrer le panier :", error);
+    }
+  }, [artworks, hasHydrated]);
+
+  const addArtwork = useCallback((artwork: PanierArtwork) => {
+    setArtworks((currentArtworks) =>
+      currentArtworks.some((item) => item.id === artwork.id)
+        ? currentArtworks
+        : [...currentArtworks, artwork]
+    );
+    setSelectedArtwork(artwork);
+  }, []);
+
+  const removeArtwork = useCallback((id: number) => {
     setArtworks((prev) => prev.filter((artwork) => artwork.id !== id));
-    setSelectedArtwork(null); // Réinitialisez l'œuvre sélectionnée si elle est retirée
-  };
+    setSelectedArtwork((currentArtwork) =>
+      currentArtwork?.id === id ? null : currentArtwork
+    );
+  }, []);
 
-  const selectArtwork = (artwork: Artwork) => {
-    setSelectedArtwork(artwork); // Sélectionnez un artwork spécifique
-  };
+  const selectArtwork = useCallback((artwork: PanierArtwork) => {
+    setSelectedArtwork(artwork);
+  }, []);
+
+  const value = useMemo(
+    () => ({
+      showPanierSidebar,
+      setShowPanierSidebar,
+      artworks,
+      selectedArtwork,
+      addArtwork,
+      removeArtwork,
+      selectArtwork,
+    }),
+    [
+      addArtwork,
+      artworks,
+      removeArtwork,
+      selectedArtwork,
+      selectArtwork,
+      showPanierSidebar,
+    ]
+  );
 
   return (
-    <PanierContext.Provider
-      value={{
-        showPanierSidebar,
-        setShowPanierSidebar,
-        artworks,
-        selectedArtwork,
-        addArtwork,
-        removeArtwork,
-        selectArtwork,
-      }}
-    >
-      {children}
-    </PanierContext.Provider>
+    <PanierContext.Provider value={value}>{children}</PanierContext.Provider>
   );
-};
+}
 
-export const usePanier = () => {
+export function usePanier() {
   const context = useContext(PanierContext);
   if (!context) {
     throw new Error("usePanier must be used within a PanierProvider");
   }
   return context;
-};
+}

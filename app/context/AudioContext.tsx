@@ -1,12 +1,16 @@
 "use client";
 
-import React, {
+import {
   createContext,
+  type ReactNode,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
+import { usePathname } from "next/navigation";
 
 interface AudioContextType {
   isPlaying: boolean;
@@ -19,82 +23,147 @@ interface AudioContextType {
 
 const AudioContext = createContext<AudioContextType | undefined>(undefined);
 
-const audioInstances: { [key: string]: HTMLAudioElement } = {};
-
-export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+export function AudioProvider({ children }: { children: ReactNode }) {
+  const pathname = usePathname();
+  const audioEnabled = !(pathname?.startsWith("/admin") ?? false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [currentTrackIndex, setCurrentTrackIndex] = useState<number>(0);
+  const [autoplayBlocked, setAutoplayBlocked] = useState(false);
+  const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const wantsPlaybackRef = useRef(true);
 
-  // Utilisation de useMemo pour éviter la redéfinition de tracks à chaque rendu
-  const tracks: string[] = useMemo(
+  const tracks = useMemo(
     () => ["Track13.mp3", "Track12.mp3", "Track15.mp3"],
     []
   );
 
+  const playCurrentTrack = useCallback(async () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    wantsPlaybackRef.current = true;
+
+    try {
+      await audio.play();
+      setAutoplayBlocked(false);
+    } catch {
+      setIsPlaying(false);
+      setAutoplayBlocked(true);
+    }
+  }, []);
+
   useEffect(() => {
-    const currentTrack = tracks[currentTrackIndex];
-
-    if (!audioInstances[currentTrack]) {
-      audioInstances[currentTrack] = new Audio(`/audio/${currentTrack}`);
-      audioInstances[currentTrack].loop = true; // Ne pas boucler ici
-
-      audioInstances[currentTrack].addEventListener("ended", () => {
-        // Passer à la piste suivante lorsque la piste actuelle se termine
-        const nextTrackIndex = (currentTrackIndex + 1) % tracks.length; // Boucle à travers les pistes
-        setCurrentTrackIndex(nextTrackIndex);
-      });
-
-      audioInstances[currentTrack].addEventListener("canplaythrough", () => {
-        if (isPlaying && audioInstances[currentTrack]) {
-          audioInstances[currentTrack].play().catch((error) => {
-            console.error("Erreur lors de la lecture de l'audio :", error);
-          });
-        }
-      });
+    if (!audioEnabled) {
+      setIsPlaying(false);
+      setLoading(false);
+      return;
     }
 
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+    const audio = new Audio(`/audio/${tracks[0]}`);
+    audio.preload = "auto";
+    audio.volume = 0.45;
+    audioRef.current = audio;
+
+    const handlePlay = () => {
+      setIsPlaying(true);
+      setAutoplayBlocked(false);
+    };
+    const handlePause = () => setIsPlaying(false);
+    const handleCanPlay = () => setLoading(false);
+    const handleEnded = () => {
+      setCurrentTrackIndex((index) => (index + 1) % tracks.length);
+    };
+
+    audio.addEventListener("play", handlePlay);
+    audio.addEventListener("pause", handlePause);
+    audio.addEventListener("canplaythrough", handleCanPlay);
+    audio.addEventListener("ended", handleEnded);
+
+    void playCurrentTrack();
+
+    const loadingFallback = window.setTimeout(() => setLoading(false), 2000);
 
     return () => {
-      clearTimeout(timer);
-      audioInstances[currentTrack]?.removeEventListener("ended", () => {});
-      audioInstances[currentTrack]?.removeEventListener(
-        "canplaythrough",
-        () => {}
-      );
+      window.clearTimeout(loadingFallback);
+      audio.pause();
+      audio.removeEventListener("play", handlePlay);
+      audio.removeEventListener("pause", handlePause);
+      audio.removeEventListener("canplaythrough", handleCanPlay);
+      audio.removeEventListener("ended", handleEnded);
+      audioRef.current = null;
     };
-  }, [isPlaying, currentTrackIndex, tracks]);
+  }, [audioEnabled, playCurrentTrack, tracks]);
 
   useEffect(() => {
-    Object.keys(audioInstances).forEach((track) => {
-      if (audioInstances[track]) {
-        if (track === tracks[currentTrackIndex] && isPlaying) {
-          audioInstances[track].play().catch((error) => {
-            console.error("Erreur lors de la lecture de l'audio :", error);
-          });
-        } else {
-          audioInstances[track].pause();
-        }
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    const nextSource = `/audio/${tracks[currentTrackIndex]}`;
+    const absoluteSource = new URL(nextSource, window.location.origin).href;
+
+    if (audio.src !== absoluteSource) {
+      audio.src = nextSource;
+      audio.load();
+
+      if (wantsPlaybackRef.current) {
+        void playCurrentTrack();
       }
+    }
+  }, [currentTrackIndex, playCurrentTrack, tracks]);
+
+  useEffect(() => {
+    if (!audioEnabled || !autoplayBlocked) return;
+
+    const unlockAudio = (event: Event) => {
+      const target = event.target;
+      if (
+        target instanceof Element &&
+        target.closest("[data-audio-control]")
+      ) {
+        return;
+      }
+
+      void playCurrentTrack();
+    };
+
+    document.addEventListener("pointerdown", unlockAudio, true);
+    document.addEventListener("touchstart", unlockAudio, {
+      capture: true,
+      passive: true,
     });
-  }, [isPlaying, currentTrackIndex, tracks]);
+    document.addEventListener("wheel", unlockAudio, {
+      capture: true,
+      passive: true,
+    });
+    document.addEventListener("keydown", unlockAudio, true);
+
+    return () => {
+      document.removeEventListener("pointerdown", unlockAudio, true);
+      document.removeEventListener("touchstart", unlockAudio, true);
+      document.removeEventListener("wheel", unlockAudio, true);
+      document.removeEventListener("keydown", unlockAudio, true);
+    };
+  }, [audioEnabled, autoplayBlocked, playCurrentTrack]);
 
   const toggleAudio = () => {
-    setIsPlaying((prev) => !prev);
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (!audio.paused) {
+      wantsPlaybackRef.current = false;
+      setAutoplayBlocked(false);
+      audio.pause();
+      return;
+    }
+
+    void playCurrentTrack();
   };
 
   const changeTrack = (track: string) => {
     const trackIndex = tracks.indexOf(track);
     if (trackIndex !== -1) {
       setCurrentTrackIndex(trackIndex);
-      if (audioInstances[tracks[currentTrackIndex]]) {
-        audioInstances[tracks[currentTrackIndex]].pause();
-      }
     }
   };
 
@@ -112,12 +181,12 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({
       {children}
     </AudioContext.Provider>
   );
-};
+}
 
-export const useAudio = () => {
+export function useAudio() {
   const context = useContext(AudioContext);
   if (context === undefined) {
     throw new Error("useAudio must be used within an AudioProvider");
   }
   return context;
-};
+}

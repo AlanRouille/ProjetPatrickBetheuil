@@ -12,7 +12,6 @@ import MenuBurger from "../_components/icons/MenuBurger.svg";
 import share from "../_components/icons/share.svg";
 import { useModal } from "../context/ModalContext";
 import { usePanier } from "../context/PanierContext";
-import PanierModal from "./PanierModal";
 import ShareModal from "./ShareModal";
 
 interface HeaderProps {
@@ -180,7 +179,6 @@ export function Header({ showLogo = true }: HeaderProps) {
         </div>
       </div>
       <ShareModal showModal={showModal} setShowModal={setShowModal} />
-      <PanierModal />
     </header>
   );
 }

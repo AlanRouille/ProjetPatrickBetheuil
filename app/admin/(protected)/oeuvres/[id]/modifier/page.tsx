@@ -1,9 +1,7 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import { ArtworkForm } from "../../ArtworkForm";
 import { updateArtworkAction } from "../../actions";
-
-const prisma = new PrismaClient();
 
 export default async function EditArtworkPage({
   params,
@@ -34,16 +32,16 @@ export default async function EditArtworkPage({
   return (
     <div className="space-y-6">
       <div>
-        <p className="text-sm uppercase tracking-[0.24em] text-[#F49C1A]">
+        <p className="text-sm uppercase tracking-[0.24em] text-pb-accent">
           Modifier
         </p>
         <h2 className="mt-2 text-3xl font-light">{artwork.title}</h2>
-        <p className="mt-2 text-sm text-[#F0F0EE]/65">
+        <p className="mt-2 text-sm text-pb-white/65">
           Mettez à jour les informations visibles dans le catalogue.
         </p>
       </div>
 
-      <section className="rounded-sm border border-white/10 bg-[#211E1B] p-5 md:p-7">
+      <section className="rounded-sm border border-white/10 bg-pb-white/[0.04] p-5 md:p-7">
         <ArtworkForm
           action={action}
           artwork={artwork}

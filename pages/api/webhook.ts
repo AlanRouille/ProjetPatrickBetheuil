@@ -1,8 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2024-09-30.acacia",
@@ -22,6 +20,62 @@ async function buffer(readable: NodeJS.ReadableStream) {
   }
 
   return Buffer.concat(chunks);
+}
+
+function getStripePaymentId(session: Stripe.Checkout.Session) {
+  return typeof session.payment_intent === "string"
+    ? session.payment_intent
+    : session.payment_intent?.id;
+}
+
+async function markOrderAsPaid(session: Stripe.Checkout.Session) {
+  const order = await prisma.order.findUnique({
+    where: { stripeSessionId: session.id },
+    include: { items: true },
+  });
+
+  if (!order || order.status === "PAID") {
+    return;
+  }
+
+  await prisma.$transaction([
+    prisma.order.update({
+      where: { id: order.id },
+      data: {
+        status: "PAID",
+        stripePaymentId: getStripePaymentId(session),
+      },
+    }),
+    prisma.artwork.updateMany({
+      where: { id: { in: order.items.map((item) => item.artworkId) } },
+      data: { status: "SOLD" },
+    }),
+  ]);
+}
+
+async function cancelPendingOrder(session: Stripe.Checkout.Session) {
+  const order = await prisma.order.findUnique({
+    where: { stripeSessionId: session.id },
+    include: { items: true },
+  });
+
+  if (!order || order.status !== "PENDING") {
+    return;
+  }
+
+  await prisma.$transaction([
+    prisma.order.update({
+      where: { id: order.id },
+      data: { status: "CANCELED" },
+    }),
+    prisma.artwork.updateMany({
+      where: {
+        id: { in: order.items.map((item) => item.artworkId) },
+        status: "RESERVED",
+      },
+      data: { status: "AVAILABLE" },
+    }),
+  ]);
 }
 
 export default async function handler(
@@ -51,50 +105,11 @@ export default async function handler(
 
   // Gérer les événements de paiement
   if (event.type === "checkout.session.completed") {
-    const session = event.data.object;
-
-    const order = await prisma.order.update({
-      where: { stripeSessionId: session.id },
-      data: {
-        status: "PAID",
-        stripePaymentId:
-          typeof session.payment_intent === "string"
-            ? session.payment_intent
-            : session.payment_intent?.id,
-      },
-      include: { items: true },
-    });
-
-    await prisma.artwork.updateMany({
-      where: { id: { in: order.items.map((item) => item.artworkId) } },
-      data: { status: "SOLD" },
-    });
+    await markOrderAsPaid(event.data.object);
   } else if (event.type === "checkout.session.async_payment_failed") {
-    const session = event.data.object;
-
-    const order = await prisma.order.update({
-      where: { stripeSessionId: session.id },
-      data: { status: "CANCELED" },
-      include: { items: true },
-    });
-
-    await prisma.artwork.updateMany({
-      where: { id: { in: order.items.map((item) => item.artworkId) } },
-      data: { status: "AVAILABLE" },
-    });
+    await cancelPendingOrder(event.data.object);
   } else if (event.type === "checkout.session.expired") {
-    const session = event.data.object;
-
-    const order = await prisma.order.update({
-      where: { stripeSessionId: session.id },
-      data: { status: "CANCELED" },
-      include: { items: true },
-    });
-
-    await prisma.artwork.updateMany({
-      where: { id: { in: order.items.map((item) => item.artworkId) } },
-      data: { status: "AVAILABLE" },
-    });
+    await cancelPendingOrder(event.data.object);
   }
 
   res.json({ received: true });

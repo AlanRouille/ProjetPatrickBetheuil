@@ -20,7 +20,7 @@ export function ArtworkRowActions({
           <input type="hidden" name="status" value="SOLD" />
           <button
             type="submit"
-            className="rounded-sm border border-white/15 px-3 py-2 text-xs text-[#F0F0EE] transition hover:border-[#F49C1A]"
+            className="rounded-sm border border-white/15 px-3 py-2 text-xs text-pb-white transition hover:border-pb-accent"
           >
             Marquer vendu
           </button>
@@ -33,7 +33,7 @@ export function ArtworkRowActions({
           <input type="hidden" name="status" value="AVAILABLE" />
           <button
             type="submit"
-            className="rounded-sm border border-white/15 px-3 py-2 text-xs text-[#F0F0EE] transition hover:border-[#F49C1A]"
+            className="rounded-sm border border-white/15 px-3 py-2 text-xs text-pb-white transition hover:border-pb-accent"
           >
             Marquer disponible
           </button>

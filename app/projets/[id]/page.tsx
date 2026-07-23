@@ -1,44 +1,59 @@
-import { PrismaClient } from "@prisma/client";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
+import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
-import { Header } from "../../_components/Header";
-import ArtworkDetailsClient from "./ArtworkDetailsClient";
+import {
+  ArtworkDetailsClient,
+  type ArtworkDetailsData,
+  type NextArtworkData,
+} from "./ArtworkDetailsClient";
 
-const prisma = new PrismaClient();
-
-interface ArtworkDetailsProps {
-  id: number;
-  title: string;
-  imageUrl: string;
-  price: number;
-  description: string;
-  isSoldOut: boolean;
-}
-
-async function getArtwork(id: number): Promise<ArtworkDetailsProps | null> {
+async function getArtwork(id: number): Promise<ArtworkDetailsData | null> {
   const artwork = await prisma.artwork.findUnique({
-    where: { id: id },
+    where: { id },
     select: {
       id: true,
       title: true,
       imageUrl: true,
       price: true,
       description: true,
+      technique: true,
+      dimensions: true,
+      year: true,
       status: true,
     },
   });
 
-  if (!artwork) {
-    return null;
-  }
+  if (!artwork) return null;
 
   return {
-    id: artwork.id,
-    title: artwork.title,
-    imageUrl: artwork.imageUrl,
-    price: artwork.price,
+    ...artwork,
     description: artwork.description ?? "",
+    status: artwork.status,
     isSoldOut: artwork.status === "SOLD" || artwork.status === "RESERVED",
   };
+}
+
+async function getNextArtwork(id: number): Promise<NextArtworkData | null> {
+  const select = {
+    id: true,
+    title: true,
+    imageUrl: true,
+  } as const;
+
+  const nextArtwork = await prisma.artwork.findFirst({
+    where: { id: { gt: id } },
+    orderBy: { id: "asc" },
+    select,
+  });
+
+  if (nextArtwork) return nextArtwork;
+
+  return prisma.artwork.findFirst({
+    where: { id: { not: id } },
+    orderBy: { id: "asc" },
+    select,
+  });
 }
 
 export default async function ArtworkDetails({
@@ -46,16 +61,22 @@ export default async function ArtworkDetails({
 }: {
   params: { id: string };
 }) {
-  const artwork = await getArtwork(Number(params.id));
+  const id = Number(params.id);
 
-  if (!artwork) {
-    notFound(); // Rediriger vers une page 404 si l'œuvre n'est pas trouvée
-  }
+  if (!Number.isInteger(id)) notFound();
+
+  const [artwork, nextArtwork] = await Promise.all([
+    getArtwork(id),
+    getNextArtwork(id),
+  ]);
+
+  if (!artwork) notFound();
 
   return (
-    <div className="min-h-screen overflow-hidden flex flex-col relative">
-      <Header showLogo={true} />
-      <ArtworkDetailsClient artwork={artwork!} />
-    </div>
+    <main className="bg-pb-black text-pb-white">
+      <Header />
+      <ArtworkDetailsClient artwork={artwork} nextArtwork={nextArtwork} />
+      <Footer />
+    </main>
   );
 }

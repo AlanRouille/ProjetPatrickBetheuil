@@ -12,6 +12,8 @@ const officialArtworks = [
     slug: "la-vie",
     dimensions: "40x50",
     price: 150,
+    imageUrl:
+      "https://res.cloudinary.com/dugwzjef9/image/upload/v1779434851/la-vie.jpg",
   },
   {
     id: 2,
@@ -19,6 +21,8 @@ const officialArtworks = [
     slug: "lintemporalite",
     dimensions: "40x50",
     price: 150,
+    imageUrl:
+      "https://res.cloudinary.com/dugwzjef9/image/upload/v1779434852/L-intemporalite.jpg",
   },
   {
     id: 3,
@@ -26,6 +30,8 @@ const officialArtworks = [
     slug: "les-quartz",
     dimensions: "40x50",
     price: 100,
+    imageUrl:
+      "https://res.cloudinary.com/dugwzjef9/image/upload/v1779434855/Les-Quartz.jpg",
   },
   {
     id: 4,
@@ -33,6 +39,8 @@ const officialArtworks = [
     slug: "la-resilience",
     dimensions: "40x50",
     price: 150,
+    imageUrl:
+      "https://res.cloudinary.com/dugwzjef9/image/upload/v1779434854/La-Resilience.jpg",
   },
   {
     id: 5,
@@ -40,6 +48,8 @@ const officialArtworks = [
     slug: "lesperance",
     dimensions: "40x50",
     price: 150,
+    imageUrl:
+      "https://res.cloudinary.com/dugwzjef9/image/upload/v1779434851/L-Esperance.jpg",
   },
   {
     id: 6,
@@ -47,6 +57,8 @@ const officialArtworks = [
     slug: "la-mutation",
     dimensions: "40x50",
     price: 150,
+    imageUrl:
+      "https://res.cloudinary.com/dugwzjef9/image/upload/v1779434852/La-Mutation.jpg",
   },
   {
     id: 7,
@@ -54,6 +66,8 @@ const officialArtworks = [
     slug: "le-voyage",
     dimensions: "40x50",
     price: 100,
+    imageUrl:
+      "https://res.cloudinary.com/dugwzjef9/image/upload/v1779434853/Le-Voyage.jpg",
   },
   {
     id: 8,
@@ -61,6 +75,8 @@ const officialArtworks = [
     slug: "la-legerete",
     dimensions: "40x50",
     price: 100,
+    imageUrl:
+      "https://res.cloudinary.com/dugwzjef9/image/upload/v1779569787/La-legerete_xgn2uq.jpg",
   },
   {
     id: 9,
@@ -68,6 +84,8 @@ const officialArtworks = [
     slug: "lintrospection",
     dimensions: "40x50",
     price: 150,
+    imageUrl:
+      "https://res.cloudinary.com/dugwzjef9/image/upload/v1779434854/L-Introspection.jpg",
   },
   {
     id: 10,
@@ -75,12 +93,10 @@ const officialArtworks = [
     slug: "la-complicite",
     dimensions: "50x70",
     price: 200,
+    imageUrl:
+      "https://res.cloudinary.com/dugwzjef9/image/upload/v1779434852/La-Complicite.jpg",
   },
 ];
-
-function placeholderImageUrl(slug) {
-  return `/images/background.png?artwork=${slug}`;
-}
 
 async function main() {
   const linkedArtworks = await prisma.orderItem.count();
@@ -95,14 +111,12 @@ async function main() {
   await prisma.artwork.deleteMany();
 
   for (const artwork of officialArtworks) {
-    const imageUrl = placeholderImageUrl(artwork.slug);
-
     await prisma.artwork.upsert({
       where: { id: artwork.id },
       update: {
         title: artwork.title,
         slug: artwork.slug,
-        imageUrl,
+        imageUrl: artwork.imageUrl,
         price: artwork.price,
         dimensions: artwork.dimensions,
         technique: defaultTechnique,
@@ -115,7 +129,7 @@ async function main() {
         images: {
           deleteMany: {},
           create: {
-            imageUrl,
+            imageUrl: artwork.imageUrl,
             alt: artwork.title,
             position: 0,
           },
@@ -125,7 +139,7 @@ async function main() {
         id: artwork.id,
         title: artwork.title,
         slug: artwork.slug,
-        imageUrl,
+        imageUrl: artwork.imageUrl,
         price: artwork.price,
         dimensions: artwork.dimensions,
         technique: defaultTechnique,
@@ -137,7 +151,7 @@ async function main() {
         metaDescription: `${artwork.title}, œuvre originale de Patrick Bétheuil.`,
         images: {
           create: {
-            imageUrl,
+            imageUrl: artwork.imageUrl,
             alt: artwork.title,
             position: 0,
           },

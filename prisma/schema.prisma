@@ -43,7 +43,7 @@ model Artwork {
   id              Int            @id @default(autoincrement())
   title           String
   slug            String         @unique
-  imageUrl        String         @unique
+  imageUrl        String
   price           Float
   description     String?
   technique       String?

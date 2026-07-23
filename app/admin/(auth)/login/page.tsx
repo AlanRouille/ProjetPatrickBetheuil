@@ -10,15 +10,15 @@ export default async function AdminLoginPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#171514] px-6 py-12 text-[#F0F0EE]">
+    <main className="min-h-screen bg-pb-black px-6 py-12 text-pb-white">
       <div className="mx-auto flex min-h-[calc(100vh-6rem)] w-full max-w-md flex-col justify-center">
-        <p className="text-sm uppercase tracking-[0.28em] text-[#F49C1A]">
+        <p className="text-sm uppercase tracking-[0.28em] text-pb-accent">
           Administration
         </p>
         <h1 className="mt-4 text-4xl font-light leading-tight">
           Espace Patrick Betheuil
         </h1>
-        <p className="mt-4 text-sm leading-6 text-[#F0F0EE]/70">
+        <p className="mt-4 text-sm leading-6 text-pb-white/70">
           Connectez-vous pour gérer les œuvres et suivre les commandes du site.
         </p>
         <AdminLoginForm />
