@@ -244,7 +244,7 @@ export function FullscreenMenu({
       />
       <div
         ref={contentRef}
-        className="relative z-10 min-h-screen px-8 py-7 md:px-16 lg:px-20"
+        className="relative z-10 h-[100dvh] overflow-hidden px-8 py-7 md:px-16 lg:min-h-screen lg:h-auto lg:overflow-visible lg:px-20"
       >
         <div className="flex items-start justify-between">
           <Link
@@ -279,22 +279,22 @@ export function FullscreenMenu({
           </button>
         </div>
 
-        <div className="relative min-h-[calc(100vh-112px)] lg:min-h-screen">
+        <div className="relative h-[calc(100dvh-3.5rem)] min-h-0 lg:min-h-screen lg:h-auto">
           <nav
             aria-label="Navigation principale"
-            className="pt-[200px] lg:absolute lg:left-1/2 lg:top-1/2 lg:w-[620px] lg:-translate-x-[680.5px] lg:-translate-y-1/2 lg:pt-0"
+            className="ml-auto w-full max-w-[21rem] pt-[clamp(150px,22dvh,200px)] lg:absolute lg:left-1/2 lg:top-1/2 lg:ml-0 lg:w-[620px] lg:max-w-none lg:-translate-x-[680.5px] lg:-translate-y-1/2 lg:pt-0"
           >
-            <ul className="flex flex-col items-end space-y-0 text-right lg:gap-8 lg:space-y-0 lg:text-right">
+              <ul className="flex flex-col items-end gap-5 text-right sm:gap-6 lg:gap-8 lg:text-right">
               {links.map((link) => (
                 <li
                   key={`${link.href}-${link.label}`}
                   data-menu-item
-                  className="lg:flex lg:w-full lg:justify-end"
+                  className="flex w-full justify-end"
                 >
                   <Link
                     href={link.href}
                     onClick={closeMenu}
-                    className="group block whitespace-nowrap font-sans text-[clamp(3.8rem,15vw,5.2rem)] font-light italic leading-[1.08] tracking-[0.04em] text-pb-white transition duration-300 hover:text-pb-white lg:w-fit lg:text-right lg:text-[clamp(72px,5.8vw,104px)] lg:font-normal lg:leading-[0.95] lg:tracking-[0.055em]"
+                    className="group block whitespace-nowrap font-sans text-[clamp(2.7rem,12vw,3.65rem)] font-light italic leading-[1.02] tracking-[0.035em] text-pb-white transition duration-300 hover:text-pb-white lg:w-fit lg:text-right lg:text-[clamp(72px,5.8vw,104px)] lg:font-normal lg:leading-[0.95] lg:tracking-[0.055em]"
                   >
                     <MenuLinkLabel label={link.label} />
                   </Link>
@@ -305,13 +305,13 @@ export function FullscreenMenu({
 
           <div
             data-menu-line
-            className="-mx-4 mt-44 h-px w-[calc(100%+2rem)] bg-pb-white/35 lg:absolute lg:left-1/2 lg:top-1/2 lg:mx-0 lg:mt-0 lg:block lg:h-[620px] lg:w-px lg:translate-x-[139.5px] lg:-translate-y-1/2 lg:bg-pb-white/80"
+            className="absolute bottom-[calc(env(safe-area-inset-bottom)+9rem)] left-[-1rem] h-px w-[calc(100%+2rem)] bg-pb-white/35 lg:left-1/2 lg:top-1/2 lg:bottom-auto lg:block lg:h-[620px] lg:w-px lg:translate-x-[139.5px] lg:-translate-y-1/2 lg:bg-pb-white/80"
             aria-hidden="true"
           />
 
           <div
             data-menu-info
-            className="-mx-4 mt-16 flex flex-col items-start gap-2 lg:absolute lg:left-1/2 lg:top-[70.5vh] lg:mx-0 lg:mt-0 lg:-translate-y-1/2 lg:translate-x-[340.5px] lg:items-center lg:gap-5"
+            className="absolute bottom-[calc(env(safe-area-inset-bottom)+2.5rem)] left-[-1rem] flex flex-col items-start gap-2 lg:left-1/2 lg:top-[70.5vh] lg:bottom-auto lg:-translate-y-1/2 lg:translate-x-[340.5px] lg:items-center lg:gap-5"
           >
             <a
               href={`mailto:${email}`}
@@ -402,7 +402,13 @@ function SocialLink({
       target={external ? "_blank" : undefined}
       rel={external ? "noopener noreferrer" : undefined}
     >
-      <Image src={icon} alt="" width={17} height={17} />
+      <Image
+        src={icon}
+        alt=""
+        width={17}
+        height={17}
+        className="brightness-0"
+      />
     </Link>
   );
 }

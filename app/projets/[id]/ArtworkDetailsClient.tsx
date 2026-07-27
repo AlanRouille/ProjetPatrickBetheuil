@@ -114,14 +114,15 @@ export function ArtworkDetailsClient({
         className="relative flex min-h-[100dvh] items-center overflow-hidden bg-pb-black px-6 pb-16 pt-28 text-pb-white md:px-12 md:pb-20 md:pt-32 xl:px-20"
       >
         <div className="mx-auto grid w-full max-w-[1440px] items-start gap-12 md:grid-cols-[minmax(0,1.02fr)_minmax(320px,0.98fr)] md:gap-10 lg:grid-cols-[minmax(0,1.08fr)_minmax(360px,0.92fr)] lg:gap-16 xl:gap-20">
-          <div className="relative h-[55svh] min-h-[420px] w-full md:h-[48vh] md:min-h-[360px] lg:h-[62vh] lg:min-h-[520px]">
+          <div className="relative w-full md:h-[48vh] md:min-h-[360px] lg:h-[62vh] lg:min-h-[520px]">
             <Image
               src={artwork.imageUrl}
               alt={artwork.title}
-              fill
+              width={1600}
+              height={1200}
               priority
               sizes="(min-width: 1024px) 54vw, 90vw"
-              className="object-contain object-top"
+              className="h-auto w-full object-contain object-top md:h-full"
             />
           </div>
 
@@ -209,7 +210,7 @@ export function ArtworkDetailsClient({
             <span className="font-sans text-xs uppercase tracking-[0.16em] text-pb-white/85 md:text-sm">
               Poursuivre le voyage vers
             </span>
-            <span className="mt-2 font-title text-[clamp(4rem,9vw,10rem)] font-normal leading-[0.85]">
+            <span className="mt-2 block max-w-full break-words font-title text-[clamp(2.25rem,10.5vw,3rem)] font-normal leading-[0.92] md:text-[clamp(4rem,9vw,10rem)] md:leading-[0.85]">
               {nextArtwork.title}
             </span>
           </span>

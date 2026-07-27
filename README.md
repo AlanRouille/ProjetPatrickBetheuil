@@ -1,78 +1,34 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Patrick Betheuil
 
-## Getting Started
+Site officiel de l’artiste Patrick Betheuil.
 
-First, run the development server:
+Cette expérience numérique présente son univers, sa démarche artistique et une
+sélection de ses œuvres dans une interface immersive, contemporaine et
+responsive.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Le projet
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Le site réunit :
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- une présentation de l’artiste et de sa démarche ;
+- une galerie d’œuvres ;
+- des fiches détaillées pour chaque création ;
+- un parcours d’acquisition sécurisé ;
+- une prise de contact intégrée ;
+- une interface d’administration privée.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Site officiel
 
-## Learn More
+[patrickbetheuil.com](https://patrickbetheuil.com)
 
-To learn more about Next.js, take a look at the following resources:
+## Statut
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Le site est actuellement en cours de finalisation et de mise en production.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Propriété
 
-## Deploy on Vercel
+Les œuvres, photographies, textes et éléments graphiques présentés dans ce
+projet sont protégés. Toute reproduction ou utilisation sans autorisation est
+interdite.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-
-## Tunnel d’achat
-
-Le paiement utilise Stripe Checkout. Une œuvre est réservée pendant la session,
-puis marquée comme vendue uniquement après confirmation du paiement par le
-webhook Stripe.
-
-Variables nécessaires :
-
-```bash
-NEXT_PUBLIC_SITE_URL="https://votre-domaine.fr"
-STRIPE_SECRET_KEY="sk_..."
-STRIPE_WEBHOOK_SECRET="whsec_..."
-ORDER_NOTIFICATION_EMAIL="pbetheuil.art@gmail.com"
-EMAIL_FROM="Patrick Betheuil <commandes@votre-domaine.fr>"
-RESEND_API_KEY="re_..."
-```
-
-`RESEND_API_KEY` est recommandé en production. Sans cette variable, le site
-utilise `EMAIL_USER` et `EMAIL_PASS`.
-
-Le webhook Stripe doit pointer vers :
-
-```text
-https://votre-domaine.fr/api/webhook
-```
-
-Événements à activer :
-
-- `checkout.session.completed`
-- `checkout.session.async_payment_succeeded`
-- `checkout.session.async_payment_failed`
-- `checkout.session.expired`
-
-Test local du webhook :
-
-```bash
-stripe listen --forward-to localhost:3000/api/webhook
-```
-
-Copier le secret `whsec_...` affiché par Stripe CLI dans
-`STRIPE_WEBHOOK_SECRET`, puis relancer le serveur.
+© Patrick Betheuil. Tous droits réservés.

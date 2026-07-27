@@ -7,6 +7,7 @@ import { CartProvider } from "./context/CardContext";
 import { ModalProvider } from "./context/ModalContext";
 import { PanierProvider } from "./context/PanierContext";
 import { ContactOverlay } from "@/components/layout/ContactOverlay";
+import { SiteEntranceCurtain } from "@/components/layout/SiteEntranceCurtain";
 import AudioPlayer from "./_components/AudioPlayer";
 import { PanierModal } from "./_components/PanierModal";
 import "./globals.css";
@@ -38,6 +39,7 @@ export default function RootLayout({
   return (
     <html lang="fr" className={cn("h-full", montserrat.variable, bodoni.variable)}>
       <body className="min-h-full bg-pb-black font-sans text-pb-white">
+        <SiteEntranceCurtain />
         <PanierProvider>
           <Background /> {/* Ajout du background animé */}
           <ModalProvider>
