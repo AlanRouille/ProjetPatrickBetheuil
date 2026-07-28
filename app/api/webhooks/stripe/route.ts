@@ -16,7 +16,7 @@ export async function POST(request: Request) {
   if (!signature || !webhookSecret) {
     return NextResponse.json(
       { error: "Configuration du webhook Stripe incomplète." },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -27,13 +27,13 @@ export async function POST(request: Request) {
     event = getStripe().webhooks.constructEvent(
       rawBody,
       signature,
-      webhookSecret
+      webhookSecret,
     );
   } catch (error) {
     console.error("Signature webhook Stripe invalide :", error);
     return NextResponse.json(
       { error: "Signature Stripe invalide." },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -56,7 +56,7 @@ export async function POST(request: Request) {
     console.error(`Échec du traitement Stripe ${event.id} :`, error);
     return NextResponse.json(
       { error: "Le traitement de la commande a échoué." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
