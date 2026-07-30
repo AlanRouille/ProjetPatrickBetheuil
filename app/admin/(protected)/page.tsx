@@ -35,6 +35,7 @@ export default async function AdminDashboardPage() {
       prisma.artwork.count({ where: { status: "AVAILABLE" } }),
       prisma.artwork.count({ where: { status: "SOLD" } }),
       prisma.order.findMany({
+        where: { status: { not: "CANCELED" } },
         take: 5,
         orderBy: { createdAt: "desc" },
         include: { user: true },

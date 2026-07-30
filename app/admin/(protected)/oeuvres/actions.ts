@@ -1,6 +1,7 @@
 "use server";
 
 import { auth } from "@/auth";
+import { getCloudinary } from "@/lib/cloudinary";
 import { prisma } from "@/lib/prisma";
 import { ArtworkStatus } from "@prisma/client";
 import { revalidatePath } from "next/cache";
@@ -21,6 +22,35 @@ async function requireAdmin() {
   if (!session) {
     throw new Error("Vous devez être connecté pour modifier les œuvres.");
   }
+}
+
+export async function createCloudinaryUploadSignatureAction() {
+  await requireAdmin();
+
+  const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
+  const apiKey = process.env.CLOUDINARY_API_KEY;
+  const apiSecret = process.env.CLOUDINARY_API_SECRET;
+
+  if (!cloudName || !apiKey || !apiSecret) {
+    throw new Error(
+      "Cloudinary n’est pas configuré. Vérifiez les variables d’environnement."
+    );
+  }
+
+  const timestamp = Math.floor(Date.now() / 1000);
+  const folder = "patrick-betheuil/oeuvres";
+  const signature = getCloudinary().utils.api_sign_request(
+    { folder, timestamp },
+    apiSecret
+  );
+
+  return {
+    apiKey,
+    cloudName,
+    folder,
+    signature,
+    timestamp,
+  };
 }
 
 function readText(formData: FormData, key: string) {

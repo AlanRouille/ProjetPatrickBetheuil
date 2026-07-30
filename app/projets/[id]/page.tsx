@@ -56,11 +56,12 @@ async function getNextArtwork(id: number): Promise<NextArtworkData | null> {
   });
 }
 
-export default async function ArtworkDetails({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default async function ArtworkDetails(
+  props: {
+    params: Promise<{ id: string }>;
+  }
+) {
+  const params = await props.params;
   const id = Number(params.id);
 
   if (!Number.isInteger(id)) notFound();

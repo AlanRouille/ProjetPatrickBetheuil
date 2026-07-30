@@ -3,11 +3,12 @@ import { notFound } from "next/navigation";
 import { ArtworkForm } from "../../ArtworkForm";
 import { updateArtworkAction } from "../../actions";
 
-export default async function EditArtworkPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default async function EditArtworkPage(
+  props: {
+    params: Promise<{ id: string }>;
+  }
+) {
+  const params = await props.params;
   const id = Number(params.id);
 
   if (Number.isNaN(id)) {

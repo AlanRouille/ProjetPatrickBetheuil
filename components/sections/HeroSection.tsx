@@ -14,7 +14,8 @@ export function HeroSection({ imageUrl }: HeroSectionProps) {
         alt=""
         fill
         sizes="100vw"
-        priority
+        loading="eager"
+        fetchPriority="high"
         className="object-cover"
       />
       <div className="absolute inset-0 bg-pb-black/20" />
