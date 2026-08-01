@@ -150,6 +150,7 @@ export function RecentWorks({ artworks }: RecentWorksProps) {
               artwork={artwork}
               priority={index < 2}
               className="w-full"
+              sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 28vw, (min-width: 768px) 36vw, (min-width: 640px) 48vw, 72vw"
             />
           </div>
         ))}

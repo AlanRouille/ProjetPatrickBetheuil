@@ -5,7 +5,7 @@ import { usePanier } from "@/app/context/PanierContext";
 import { ArrowUp } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   type MouseEvent,
   useCallback,
@@ -27,6 +27,7 @@ const cartIconData =
 
 export function Header() {
   const pathname = usePathname();
+  const router = useRouter();
   const { artworks, setShowPanierSidebar } = usePanier();
   const [menuOpen, setMenuOpen] = useState(false);
   const [navHidden, setNavHidden] = useState(false);
@@ -169,9 +170,17 @@ export function Header() {
   };
 
   const handleLogoClick = (event: MouseEvent<HTMLAnchorElement>) => {
-    if (pathname !== "/") return;
-
     event.preventDefault();
+
+    if (pathname !== "/") {
+      if (window.history.length > 1) {
+        router.back();
+      } else {
+        router.push("/");
+      }
+      return;
+    }
+
     window.history.replaceState(null, "", "/");
     scrollToTop();
   };

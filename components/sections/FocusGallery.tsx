@@ -323,10 +323,10 @@ export function FocusGallery({ artworks }: FocusGalleryProps) {
           </div>
 
           <div
-            aria-label="GALERIE"
             className="absolute left-[48vw] top-[50vh] hidden h-[64vh] w-[45vw] -translate-y-1/2 text-right font-title font-medium uppercase leading-[0.78] drop-shadow-[0_2px_14px_rgba(0,0,0,0.35)] lg:block"
           >
             <span
+              aria-hidden="true"
               data-gallery-text
               data-gallery-word
               className="absolute right-[23vw] top-0 block text-[clamp(5.8rem,10vw,11.2rem)] md:right-[18vw] lg:right-[16.2vw]"
@@ -334,6 +334,7 @@ export function FocusGallery({ artworks }: FocusGalleryProps) {
               GA
             </span>
             <span
+              aria-hidden="true"
               data-gallery-text
               data-gallery-word
               className="absolute right-[7vw] top-[18vh] block text-[clamp(5.8rem,10vw,11.2rem)] md:right-[5vw] lg:right-[3.8vw] lg:top-[20vh]"
@@ -341,6 +342,7 @@ export function FocusGallery({ artworks }: FocusGalleryProps) {
               LER
             </span>
             <span
+              aria-hidden="true"
               data-gallery-text
               data-gallery-word
               className="absolute right-0 top-[34vh] block text-[clamp(5.8rem,10vw,11.2rem)] lg:top-[39vh]"

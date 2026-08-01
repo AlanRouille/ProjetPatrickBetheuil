@@ -16,12 +16,14 @@ interface ArtworkCardProps {
   artwork: ArtworkCardData;
   className?: string;
   priority?: boolean;
+  sizes?: string;
 }
 
 export function ArtworkCard({
   artwork,
   className,
   priority = false,
+  sizes = "(min-width: 1280px) 30vw, (min-width: 768px) 46vw, 90vw",
 }: ArtworkCardProps) {
   const isUnavailable = artwork.status === "SOLD" || artwork.status === "RESERVED";
 
@@ -38,7 +40,7 @@ export function ArtworkCard({
           src={artwork.imageUrl}
           alt={artwork.title}
           fill
-          sizes="(min-width: 1024px) 34vw, (min-width: 768px) 50vw, 90vw"
+          sizes={sizes}
           className="object-cover transition duration-700 group-hover:scale-[1.025]"
           priority={priority}
         />

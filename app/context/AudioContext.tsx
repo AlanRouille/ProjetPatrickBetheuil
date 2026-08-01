@@ -40,6 +40,8 @@ export function AudioProvider({ children }: { children: ReactNode }) {
   const [autoplayBlocked, setAutoplayBlocked] = useState(false);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const audioInitializedRef = useRef(false);
+  const currentTrackIndexRef = useRef(0);
   const wantsPlaybackRef = useRef(true);
 
   const tracks = useMemo(
@@ -47,11 +49,23 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     []
   );
 
+  const ensureAudioSource = useCallback(() => {
+    const audio = audioRef.current;
+    if (!audio || audioInitializedRef.current) return;
+
+    audioInitializedRef.current = true;
+    audio.src = `/audio/${tracks[currentTrackIndexRef.current]}`;
+    audio.preload = "auto";
+    setLoading(true);
+    audio.load();
+  }, [tracks]);
+
   const playCurrentTrack = useCallback(async () => {
     const audio = audioRef.current;
     if (!audio) return;
 
     wantsPlaybackRef.current = true;
+    ensureAudioSource();
 
     try {
       await audio.play();
@@ -60,7 +74,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       setIsPlaying(false);
       setAutoplayBlocked(true);
     }
-  }, []);
+  }, [ensureAudioSource]);
 
   useEffect(() => {
     if (!audioEnabled) {
@@ -69,10 +83,14 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       return;
     }
 
-    const audio = new Audio(`/audio/${tracks[0]}`);
-    audio.preload = "auto";
+    const audio = new Audio();
+    audio.preload = "none";
     audio.volume = 0.45;
     audioRef.current = audio;
+    audioInitializedRef.current = false;
+    wantsPlaybackRef.current = true;
+    setLoading(false);
+    setAutoplayBlocked(true);
 
     const handlePlay = () => {
       setIsPlaying(true);
@@ -89,24 +107,22 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     audio.addEventListener("canplaythrough", handleCanPlay);
     audio.addEventListener("ended", handleEnded);
 
-    void playCurrentTrack();
-
-    const loadingFallback = window.setTimeout(() => setLoading(false), 2000);
-
     return () => {
-      window.clearTimeout(loadingFallback);
       audio.pause();
       audio.removeEventListener("play", handlePlay);
       audio.removeEventListener("pause", handlePause);
       audio.removeEventListener("canplaythrough", handleCanPlay);
       audio.removeEventListener("ended", handleEnded);
       audioRef.current = null;
+      audioInitializedRef.current = false;
     };
-  }, [audioEnabled, playCurrentTrack, tracks]);
+  }, [audioEnabled, tracks]);
 
   useEffect(() => {
+    currentTrackIndexRef.current = currentTrackIndex;
+
     const audio = audioRef.current;
-    if (!audio) return;
+    if (!audio || !audioInitializedRef.current) return;
 
     const nextSource = `/audio/${tracks[currentTrackIndex]}`;
     const absoluteSource = new URL(nextSource, window.location.origin).href;
