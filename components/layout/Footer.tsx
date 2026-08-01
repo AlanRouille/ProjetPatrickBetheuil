@@ -88,7 +88,7 @@ export function Footer() {
         <div className="grid gap-10 pt-6 lg:grid-cols-[1fr_auto_1fr] lg:items-center lg:gap-6 lg:pt-6">
           <span className="hidden lg:block" aria-hidden="true" />
 
-          <div className="flex items-center justify-center gap-4">
+          <div className="order-1 flex items-center justify-center gap-4 lg:order-2">
             {socialLinks.map((item) => (
               <Link
                 key={item.label}
@@ -111,7 +111,7 @@ export function Footer() {
 
           <nav
             aria-label="Navigation légale"
-            className="grid w-full grid-cols-[minmax(0,0.9fr)_auto_minmax(0,1.45fr)_auto_minmax(0,0.55fr)] items-center border-t border-pb-white/55 pt-7 font-sans text-[13px] font-normal leading-[1.15] text-pb-white/75 sm:text-sm lg:flex lg:w-auto lg:flex-nowrap lg:justify-end lg:whitespace-nowrap lg:border-t-0 lg:pt-0 lg:text-[11px] xl:text-sm"
+            className="order-2 grid w-full grid-cols-[minmax(0,0.9fr)_auto_minmax(0,1.45fr)_auto_minmax(0,0.55fr)] items-center border-t border-pb-white/55 pt-7 font-sans text-[13px] font-normal leading-[1.15] text-pb-white/75 sm:text-sm lg:order-3 lg:flex lg:w-auto lg:flex-nowrap lg:justify-end lg:whitespace-nowrap lg:border-t-0 lg:pt-0 lg:text-[11px] xl:text-sm"
           >
             {legalLinks.map((item, index) => (
               <span key={item.href} className="contents">
@@ -131,6 +131,19 @@ export function Footer() {
             ))}
           </nav>
         </div>
+
+        <p className="mt-16 text-center font-sans text-xs font-normal text-pb-white/65 lg:mt-12 lg:whitespace-nowrap lg:text-[11px] xl:text-xs">
+          © {new Date().getFullYear()} Patrick Betheuil — Tous droits réservés
+          • Site conçu et développé par{" "}
+          <Link
+            href="https://www.instagram.com/kode_and_kom?igsh=MTJ0bzNyejc5Y2l0YQ%3D%3D&utm_source=qr"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="relative inline-block font-medium text-pb-white after:absolute after:-bottom-1 after:left-0 after:hidden after:h-px after:w-full after:origin-right after:scale-x-100 after:bg-current after:transition-transform after:duration-500 after:ease-[cubic-bezier(0.76,0,0.24,1)] after:content-[''] hover:after:scale-x-0 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-pb-white focus-visible:after:scale-x-0 lg:after:block"
+          >
+            Kode and Kom
+          </Link>
+        </p>
       </div>
     </footer>
   );

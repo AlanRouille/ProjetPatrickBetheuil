@@ -8,6 +8,13 @@ import { useState } from "react";
 import { useAudio } from "../context/AudioContext";
 import { usePanier } from "../context/PanierContext";
 
+const AUDIO_DISABLED_PATHS = [
+  "/admin",
+  "/mentions-legales",
+  "/politique-confidentialite",
+  "/cgv",
+];
+
 const AudioPlayer = () => {
   const pathname = usePathname();
   const { isPlaying, toggleAudio } = useAudio();
@@ -19,7 +26,11 @@ const AudioPlayer = () => {
     toggleAudio();
   };
 
-  if (pathname?.startsWith("/admin") || showPanierSidebar) {
+  const audioDisabled = AUDIO_DISABLED_PATHS.some(
+    (path) => pathname === path || pathname?.startsWith(`${path}/`)
+  );
+
+  if (audioDisabled || showPanierSidebar) {
     return null;
   }
 

@@ -23,9 +23,18 @@ interface AudioContextType {
 
 const AudioContext = createContext<AudioContextType | undefined>(undefined);
 
+const AUDIO_DISABLED_PATHS = [
+  "/admin",
+  "/mentions-legales",
+  "/politique-confidentialite",
+  "/cgv",
+];
+
 export function AudioProvider({ children }: { children: ReactNode }) {
   const pathname = usePathname();
-  const audioEnabled = !(pathname?.startsWith("/admin") ?? false);
+  const audioEnabled = !AUDIO_DISABLED_PATHS.some(
+    (path) => pathname === path || pathname?.startsWith(`${path}/`)
+  );
   const [isPlaying, setIsPlaying] = useState(false);
   const [loading, setLoading] = useState(true);
   const [autoplayBlocked, setAutoplayBlocked] = useState(false);
