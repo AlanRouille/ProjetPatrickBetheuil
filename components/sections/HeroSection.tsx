@@ -16,6 +16,7 @@ export function HeroSection({ imageUrl }: HeroSectionProps) {
         sizes="100vw"
         loading="eager"
         fetchPriority="high"
+        quality={72}
         className="object-cover"
       />
       <div className="absolute inset-0 bg-pb-black/20" />

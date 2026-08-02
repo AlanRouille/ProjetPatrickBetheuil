@@ -42,6 +42,7 @@ export function SiteEntranceCurtain() {
     const reducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
+    const isMobile = window.matchMedia("(max-width: 767px)").matches;
     const previousOverflow = document.body.style.overflow;
 
     document.body.style.overflow = "hidden";
@@ -54,10 +55,10 @@ export function SiteEntranceCurtain() {
 
     const animation = gsap.to(layers, {
       yPercent: -100,
-      duration: 1.05,
-      stagger: 0.1,
+      duration: isMobile ? 0.56 : 0.9,
+      stagger: isMobile ? 0.045 : 0.075,
       ease: "power4.inOut",
-      delay: 0.12,
+      delay: isMobile ? 0.03 : 0.08,
       onComplete: () => {
         document.body.style.overflow = previousOverflow;
         setIsVisible(false);

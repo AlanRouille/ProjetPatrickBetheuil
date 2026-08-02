@@ -16,6 +16,7 @@ interface ArtworkCardProps {
   artwork: ArtworkCardData;
   className?: string;
   priority?: boolean;
+  quality?: number;
   sizes?: string;
 }
 
@@ -23,6 +24,7 @@ export function ArtworkCard({
   artwork,
   className,
   priority = false,
+  quality = 70,
   sizes = "(min-width: 1280px) 30vw, (min-width: 768px) 46vw, 90vw",
 }: ArtworkCardProps) {
   const isUnavailable = artwork.status === "SOLD" || artwork.status === "RESERVED";
@@ -43,6 +45,7 @@ export function ArtworkCard({
           sizes={sizes}
           className="object-cover transition duration-700 group-hover:scale-[1.025]"
           priority={priority}
+          quality={quality}
         />
         {isUnavailable ? (
           <span className="absolute left-4 top-4 bg-pb-black px-3 py-2 font-sans text-[10px] font-medium uppercase tracking-[0.2em] text-pb-white">

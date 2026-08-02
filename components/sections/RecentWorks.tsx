@@ -140,7 +140,7 @@ export function RecentWorks({ artworks }: RecentWorksProps) {
         ref={scrollerRef}
         className="flex snap-x gap-[clamp(3.5rem,8vw,9rem)] overflow-x-auto px-8 pb-12 scroll-pl-8 scrollbar-none md:px-16 md:scroll-pl-16 xl:px-24 xl:scroll-pl-24"
       >
-        {artworks.map((artwork, index) => (
+        {artworks.map((artwork) => (
           <div
             key={artwork.id}
             data-recent-card
@@ -148,8 +148,8 @@ export function RecentWorks({ artworks }: RecentWorksProps) {
           >
             <ArtworkCard
               artwork={artwork}
-              priority={index < 2}
               className="w-full"
+              quality={66}
               sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 28vw, (min-width: 768px) 36vw, (min-width: 640px) 48vw, 72vw"
             />
           </div>
