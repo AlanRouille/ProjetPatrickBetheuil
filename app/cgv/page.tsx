@@ -1,13 +1,19 @@
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
-import type { Metadata } from "next";
+import { JsonLd } from "@/components/seo/JsonLd";
+import {
+  createBreadcrumbSchema,
+  createPageMetadata,
+  schemaGraph,
+} from "@/lib/seo";
 import type { ReactNode } from "react";
 
-export const metadata: Metadata = {
-  title: "Conditions générales de vente | Patrick Betheuil",
+export const metadata = createPageMetadata({
+  title: "Conditions générales de vente",
   description:
     "Conditions générales de vente applicables à l'achat des œuvres originales de Patrick Betheuil.",
-};
+  canonical: "/cgv",
+});
 
 function SalesSection({
   number,
@@ -42,6 +48,14 @@ const linkClasses =
 export default function ConditionsGeneralesVentePage() {
   return (
     <main className="min-h-screen bg-pb-black text-pb-white">
+      <JsonLd
+        data={schemaGraph([
+          createBreadcrumbSchema([
+            { name: "Accueil", path: "/" },
+            { name: "Conditions générales de vente", path: "/cgv" },
+          ]),
+        ])}
+      />
       <Header />
 
       <article

@@ -1,6 +1,7 @@
 "use client";
 
 import { gsap } from "gsap";
+import { artworkImageAlt } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
@@ -9,6 +10,7 @@ import { usePanier } from "../../context/PanierContext";
 export interface ArtworkDetailsData {
   id: number;
   title: string;
+  slug: string;
   imageUrl: string;
   price: number;
   description: string;
@@ -22,6 +24,7 @@ export interface ArtworkDetailsData {
 export interface NextArtworkData {
   id: number;
   title: string;
+  slug: string;
   imageUrl: string;
 }
 
@@ -47,6 +50,9 @@ export function ArtworkDetailsClient({
   const { addArtwork, setShowPanierSidebar } = usePanier();
   const nextSectionRef = useRef<HTMLAnchorElement>(null);
   const nextCursorRef = useRef<HTMLSpanElement>(null);
+  const artworkContext = artwork.isSoldOut
+    ? "Réalisée en un seul exemplaire, cette œuvre originale témoigne d’un moment de recherche singulier. Elle invite à imaginer la place qu’une peinture intuitive peut prendre dans un intérieur."
+    : "Réalisée en un seul exemplaire, cette œuvre originale est disponible à l’acquisition. Elle peut devenir le point d’ancrage sensible d’un salon, d’un espace de travail ou d’un lieu intime.";
 
   useEffect(() => {
     const section = nextSectionRef.current;
@@ -117,10 +123,10 @@ export function ArtworkDetailsClient({
           <div className="relative w-full md:h-[48vh] md:min-h-[360px] lg:h-[62vh] lg:min-h-[520px]">
             <Image
               src={artwork.imageUrl}
-              alt={artwork.title}
+              alt={artworkImageAlt(artwork.title)}
               width={1600}
               height={1200}
-              priority
+              preload
               sizes="(min-width: 1024px) 54vw, 90vw"
               className="h-auto w-full object-contain object-top md:h-full"
             />
@@ -165,16 +171,19 @@ export function ArtworkDetailsClient({
             </button>
 
             <div className="mt-8">
-              <h2 className="font-sans text-lg font-medium">Description</h2>
+              <h2 className="font-sans text-lg font-medium">L’œuvre</h2>
               <p className="mt-4 font-sans text-[15px] leading-relaxed text-pb-white/70">
                 {artwork.description ||
                   "Description de l’œuvre prochainement disponible."}
+              </p>
+              <p className="mt-4 font-sans text-[15px] leading-relaxed text-pb-white/70">
+                {artworkContext}
               </p>
             </div>
 
             {artwork.technique ? (
               <div className="mt-7 border-t border-pb-accent/70 pt-6">
-                <h2 className="font-sans text-lg font-medium">Technique</h2>
+                <h2 className="font-sans text-lg font-medium">Matière et technique</h2>
                 <p className="mt-4 font-sans text-[15px] leading-relaxed text-pb-white/70">
                   {artwork.technique}
                 </p>
@@ -188,7 +197,7 @@ export function ArtworkDetailsClient({
       {nextArtwork ? (
         <Link
           ref={nextSectionRef}
-          href={`/projets/${nextArtwork.id}`}
+          href={`/projets/${nextArtwork.slug}`}
           data-header-theme="light"
           className="group relative block min-h-[100dvh] overflow-hidden bg-pb-black text-pb-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-pb-accent"
         >
@@ -197,7 +206,7 @@ export function ArtworkDetailsClient({
           >
             <Image
               src={nextArtwork.imageUrl}
-              alt={nextArtwork.title}
+              alt={artworkImageAlt(nextArtwork.title)}
               fill
               sizes="100vw"
               className="object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.02]"

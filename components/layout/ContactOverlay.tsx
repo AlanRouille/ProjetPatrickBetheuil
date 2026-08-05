@@ -417,6 +417,15 @@ export function ContactOverlay() {
                 </span>
               </h2>
 
+              <p
+                data-contact-form-item
+                className="mb-7 max-w-lg font-sans text-sm leading-relaxed text-pb-white/75 sm:mb-9 sm:text-base"
+              >
+                Une œuvre vous attire, vous imaginez un tableau contemporain dans
+                votre intérieur ou vous souhaitez échanger autour d’une
+                acquisition ? Écrivez-moi, je vous répondrai personnellement.
+              </p>
+
               <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div data-contact-form-item>
@@ -463,7 +472,7 @@ export function ContactOverlay() {
                     name="message"
                     value={message}
                     onChange={(event) => setMessage(event.target.value)}
-                    placeholder="Une question autour d’une acquisition ?"
+                      placeholder="Dites-moi ce qui vous attire dans une œuvre ou votre projet…"
                     required
                     rows={7}
                     className="h-[180px] w-full resize-none border border-pb-white/70 bg-transparent p-4 font-sans text-base text-pb-white outline-none transition-colors placeholder:text-pb-white/70 focus:border-pb-accent focus-visible:ring-1 focus-visible:ring-pb-accent sm:h-auto"
@@ -529,9 +538,9 @@ export function ContactOverlay() {
           >
             <Image
               src="https://res.cloudinary.com/dugwzjef9/image/upload/v1779569787/La-legerete_xgn2uq.jpg"
-              alt="Œuvre de Patrick Bétheuil"
+              alt="La Légèreté, peinture intuitive originale de Patrick Betheuil"
               fill
-              priority
+              loading="eager"
               sizes="(max-width: 1023px) 95vw, 47.5vw"
               className="object-cover"
             />

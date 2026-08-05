@@ -16,6 +16,7 @@ const nextConfig = {
     // Add candidates close to common laptop widths so full-screen artwork
     // imagery does not jump directly from 1200 px to 1920 px.
     deviceSizes: [512, 576, 640, 750, 828, 1080, 1200, 1366, 1536, 1920, 2048, 3840],
+    qualities: [66, 70, 72, 75],
     remotePatterns: [
       {
         protocol: "https",

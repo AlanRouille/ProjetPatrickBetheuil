@@ -1,21 +1,22 @@
 import { TextReveal } from "@/components/animations/TextReveal";
+import { artworkImageAlt } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
 
 interface HeroSectionProps {
   imageUrl: string;
+  imageTitle: string;
 }
 
-export function HeroSection({ imageUrl }: HeroSectionProps) {
+export function HeroSection({ imageUrl, imageTitle }: HeroSectionProps) {
   return (
     <section className="relative min-h-screen overflow-hidden bg-pb-black text-pb-white">
       <Image
         src={imageUrl}
-        alt=""
+        alt={artworkImageAlt(imageTitle)}
         fill
         sizes="100vw"
-        loading="eager"
-        fetchPriority="high"
+        preload
         quality={72}
         className="object-cover"
       />
@@ -29,7 +30,7 @@ export function HeroSection({ imageUrl }: HeroSectionProps) {
         </TextReveal>
         <TextReveal className="w-full" delay={0.18}>
           <p className="mx-auto mt-5 max-w-[34rem] px-1 font-sans text-[15px] font-normal leading-[1.65] drop-shadow-[0_3px_10px_rgba(0,0,0,0.9)] sm:mt-6 sm:text-lg sm:leading-[1.7] md:text-xl lg:max-w-4xl lg:text-[1.375rem] lg:leading-[1.75]">
-            Chaque peinture révèle une matière,
+            Chaque peinture intuitive révèle une matière,
             <br className="hidden sm:block" />
             un mouvement et une émotion issus de l’atelier.
           </p>

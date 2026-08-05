@@ -1,6 +1,14 @@
 import { CheckoutStatusLayout } from "@/components/checkout/CheckoutStatusLayout";
 import { DesignButton } from "@/components/ui/DesignButton";
 import { CancelCheckoutClient } from "./CancelCheckoutClient";
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata = createPageMetadata({
+  title: "Acquisition non finalisée",
+  description: "Reprenez votre acquisition d’une œuvre originale en toute sécurité.",
+  canonical: "/commande/annulee",
+  noIndex: true,
+});
 
 interface AcquisitionCanceledPageProps {
   searchParams: Promise<{

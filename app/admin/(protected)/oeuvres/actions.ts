@@ -3,6 +3,8 @@
 import { auth } from "@/auth";
 import { getCloudinary } from "@/lib/cloudinary";
 import { prisma } from "@/lib/prisma";
+import { revalidatePublicArtworkPaths } from "@/lib/revalidate-artworks";
+import { artworkImageAlt } from "@/lib/seo";
 import { ArtworkStatus } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -97,7 +99,7 @@ function readImages(formData: FormData, slug: string) {
 
   return imageUrls.map((imageUrl, position) => ({
     imageUrl,
-    alt: readText(formData, "title"),
+    alt: artworkImageAlt(readText(formData, "title")),
     position,
   }));
 }
@@ -151,7 +153,7 @@ export async function createArtworkAction(formData: FormData) {
 
   revalidatePath("/admin");
   revalidatePath("/admin/oeuvres");
-  revalidatePath("/projets");
+  revalidatePublicArtworkPaths([payload.slug]);
   redirect("/admin/oeuvres");
 }
 
@@ -159,6 +161,10 @@ export async function updateArtworkAction(id: number, formData: FormData) {
   await requireAdmin();
 
   const payload = readArtworkPayload(formData);
+  const previousArtwork = await prisma.artwork.findUnique({
+    where: { id },
+    select: { slug: true },
+  });
 
   await prisma.artwork.update({
     where: { id },
@@ -183,8 +189,7 @@ export async function updateArtworkAction(id: number, formData: FormData) {
 
   revalidatePath("/admin");
   revalidatePath("/admin/oeuvres");
-  revalidatePath(`/projets/${id}`);
-  revalidatePath("/projets");
+  revalidatePublicArtworkPaths([previousArtwork?.slug ?? "", payload.slug]);
   redirect("/admin/oeuvres");
 }
 
@@ -193,6 +198,10 @@ export async function setArtworkStatusAction(formData: FormData) {
 
   const id = Number(readText(formData, "id"));
   const status = readText(formData, "status") as ArtworkStatus;
+  const artwork = await prisma.artwork.findUnique({
+    where: { id },
+    select: { slug: true },
+  });
 
   await prisma.artwork.update({
     where: { id },
@@ -201,14 +210,17 @@ export async function setArtworkStatusAction(formData: FormData) {
 
   revalidatePath("/admin");
   revalidatePath("/admin/oeuvres");
-  revalidatePath(`/projets/${id}`);
-  revalidatePath("/projets");
+  revalidatePublicArtworkPaths([artwork?.slug ?? ""]);
 }
 
 export async function deleteArtworkAction(formData: FormData) {
   await requireAdmin();
 
   const id = Number(readText(formData, "id"));
+  const artwork = await prisma.artwork.findUnique({
+    where: { id },
+    select: { slug: true },
+  });
   const linkedOrders = await prisma.orderItem.count({ where: { artworkId: id } });
 
   if (linkedOrders > 0) {
@@ -221,5 +233,5 @@ export async function deleteArtworkAction(formData: FormData) {
 
   revalidatePath("/admin");
   revalidatePath("/admin/oeuvres");
-  revalidatePath("/projets");
+  revalidatePublicArtworkPaths([artwork?.slug ?? ""]);
 }

@@ -2,6 +2,7 @@
 
 import { Trash2, X } from "lucide-react";
 import Image from "next/image";
+import { artworkImageAlt } from "@/lib/seo";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { usePanier } from "../context/PanierContext";
@@ -186,7 +187,7 @@ export function PanierModal() {
                   <div className="relative h-16 w-16 overflow-hidden bg-pb-black/5">
                     <Image
                       src={artwork.imageUrl}
-                      alt={artwork.title}
+                      alt={artworkImageAlt(artwork.title)}
                       fill
                       sizes="64px"
                       className="object-cover"

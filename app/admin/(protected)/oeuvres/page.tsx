@@ -76,7 +76,7 @@ export default async function AdminArtworksPage() {
                   <div className="relative h-20 w-20 overflow-hidden rounded-sm bg-black/30">
                     <Image
                       src={imageUrl}
-                      alt={artwork.title}
+                      alt={`Aperçu de l’œuvre ${artwork.title}`}
                       fill
                       sizes="80px"
                       className="object-cover"

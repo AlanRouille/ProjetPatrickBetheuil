@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { revalidatePublicArtworkPaths } from "@/lib/revalidate-artworks";
 import { getStripe } from "@/lib/stripe";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
@@ -60,6 +61,7 @@ export async function POST(request: Request) {
         select: {
           id: true,
           title: true,
+          slug: true,
           imageUrl: true,
           price: true,
           status: true,
@@ -124,6 +126,8 @@ export async function POST(request: Request) {
 
       return { order, artworks };
     });
+
+    revalidatePublicArtworkPaths(artworks.map((artwork) => artwork.slug));
 
     let stripeSessionId: string | null = null;
 
@@ -218,6 +222,8 @@ export async function POST(request: Request) {
           data: { status: "AVAILABLE" },
         }),
       ]);
+
+      revalidatePublicArtworkPaths(artworks.map((artwork) => artwork.slug));
 
       throw error;
     }

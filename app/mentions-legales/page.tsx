@@ -1,13 +1,19 @@
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
-import type { Metadata } from "next";
+import { JsonLd } from "@/components/seo/JsonLd";
+import {
+  createBreadcrumbSchema,
+  createPageMetadata,
+  schemaGraph,
+} from "@/lib/seo";
 import type { ReactNode } from "react";
 
-export const metadata: Metadata = {
-  title: "Mentions légales | Patrick Betheuil",
+export const metadata = createPageMetadata({
+  title: "Mentions légales",
   description:
     "Mentions légales du site officiel de l'artiste peintre Patrick Betheuil.",
-};
+  canonical: "/mentions-legales",
+});
 
 function LegalSection({
   title,
@@ -33,6 +39,14 @@ function LegalSection({
 export default function MentionsLegalesPage() {
   return (
     <main className="min-h-screen bg-pb-black text-pb-white">
+      <JsonLd
+        data={schemaGraph([
+          createBreadcrumbSchema([
+            { name: "Accueil", path: "/" },
+            { name: "Mentions légales", path: "/mentions-legales" },
+          ]),
+        ])}
+      />
       <Header />
 
       <article

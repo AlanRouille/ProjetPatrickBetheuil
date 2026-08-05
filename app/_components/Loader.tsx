@@ -75,7 +75,7 @@ const Loader = ({ onFinishLoading }: LoaderProps) => {
           ref={logoRef}
           className="text-white text-4xl font-bold opacity-0"
         >
-          <Image src={Logo} alt="Logo" width={42} height={42} />
+          <Image src={Logo} alt="Patrick Betheuil" width={42} height={42} />
         </div>
 
         <div ref={progressBarRef} className="w-1/4 mt-6 opacity-0">

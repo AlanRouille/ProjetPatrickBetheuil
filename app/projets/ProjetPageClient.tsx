@@ -2,11 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { artworkImageAlt } from "@/lib/seo";
 import { useEffect, useRef, useState } from "react";
 
 interface Projet {
   id: number;
   title: string;
+  slug: string;
   imageUrl: string;
   isSoldOut: boolean;
 }
@@ -44,6 +46,14 @@ export const ProjetPageClient = ({ projets }: { projets: Projet[] }) => {
       data-header-theme="light"
       className="relative flex min-h-screen flex-col items-center justify-center bg-pb-black pb-20 pt-36 text-pb-white md:pt-44"
     >
+      <h1 className="sr-only">
+        Peintures intuitives originales de Patrick Betheuil
+      </h1>
+      <p className="sr-only">
+        Découvrez une collection de peintures contemporaines originales : des
+        œuvres uniques, entre peinture abstraite, matière et émotion, à explorer
+        pour choisir un tableau contemporain qui vous ressemble.
+      </p>
       <div className="relative mx-auto flex w-full">
         <div className="mx-auto mb-12 grid w-full max-w-[1180px] grid-cols-1 gap-y-16 px-5 scroll-smooth sm:grid-cols-2 sm:gap-x-8 sm:gap-y-14 sm:px-8 md:gap-x-10 md:px-10 lg:gap-x-14 lg:px-0">
           {projets.map((projet, index) => (
@@ -56,7 +66,7 @@ export const ProjetPageClient = ({ projets }: { projets: Projet[] }) => {
               }`}
               style={{ transitionDelay: `${index * 100}ms` }}
             >
-              <Link href={`/projets/${projet.id}`}>
+              <Link href={`/projets/${projet.slug}`}>
                 <div
                   ref={(el) => {
                     cardRefs.current[index] = el;
@@ -67,8 +77,9 @@ export const ProjetPageClient = ({ projets }: { projets: Projet[] }) => {
                 >
                   <Image
                     src={projet.imageUrl}
-                    alt={projet.title}
+                    alt={artworkImageAlt(projet.title)}
                     fill
+                    loading={index < 4 ? "eager" : "lazy"}
                     sizes="(min-width: 1024px) 500px, (min-width: 640px) calc(50vw - 3rem), calc(100vw - 2.5rem)"
                     className="object-cover transition-transform duration-500 ease-in-out"
                   />

@@ -1,6 +1,7 @@
 "use client ";
 
 import Image from "next/image";
+import { artworkImageAlt } from "@/lib/seo";
 import React from "react";
 import { usePanier } from "../context/PanierContext";
 
@@ -23,7 +24,7 @@ const PanierSidebar: React.FC = () => {
         <>
           <Image
             src={selectedArtwork.imageUrl}
-            alt={selectedArtwork.title}
+            alt={artworkImageAlt(selectedArtwork.title)}
             className="w-full h-auto mt-2"
             width={50}
             height={50}

@@ -2,6 +2,7 @@
 
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { artworkImageAlt } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, type Ref } from "react";
@@ -9,6 +10,7 @@ import { useEffect, useRef, type Ref } from "react";
 interface FocusGalleryImage {
   id: number;
   title: string;
+  slug: string;
   imageUrl: string;
 }
 
@@ -390,7 +392,7 @@ function GalleryTile({
       <div ref={imageRef} className="absolute inset-0 will-change-transform">
         <Image
           src={artwork.imageUrl}
-          alt={artwork.title}
+          alt={artworkImageAlt(artwork.title)}
           fill
           sizes={sizes}
           className="object-cover"

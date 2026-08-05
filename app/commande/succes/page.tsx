@@ -3,8 +3,16 @@ import { getStripe } from "@/lib/stripe";
 import { CheckoutStatusLayout } from "@/components/checkout/CheckoutStatusLayout";
 import { DesignButton } from "@/components/ui/DesignButton";
 import { SuccessCheckoutClient } from "./SuccessCheckoutClient";
+import { createPageMetadata } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
+
+export const metadata = createPageMetadata({
+  title: "Confirmation de l’acquisition",
+  description: "Confirmation sécurisée de l’acquisition d’une œuvre originale.",
+  canonical: "/commande/succes",
+  noIndex: true,
+});
 
 interface AcquisitionSuccessPageProps {
   searchParams: Promise<{

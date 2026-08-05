@@ -232,15 +232,16 @@ export function ProcessSection() {
   return (
     <section ref={sectionRef} className="relative h-[310vh] bg-pb-black">
       <div className="sticky top-0 h-screen overflow-hidden bg-pb-black text-pb-white">
-        <Image
-          data-process-background
-          src="/images/slider-about.png"
-          alt=""
-          fill
-          sizes="100vw"
-          className="object-cover opacity-100"
-          priority={false}
-        />
+        <div className="absolute inset-0">
+          <Image
+            data-process-background
+            src="/images/slider-about.png"
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-cover opacity-100"
+          />
+        </div>
         <div className="absolute inset-0 bg-pb-black/18" />
 
         <div className="absolute left-[10vw] top-1/2 z-20 hidden -translate-y-1/2 flex-col gap-7 md:flex">
@@ -300,7 +301,7 @@ export function ProcessSection() {
             </p>
             <p
               data-process-selection-line
-              className="ml-[8vw] font-sans text-[clamp(3.7rem,7.8vw,8.8rem)] font-medium uppercase leading-[0.84] tracking-[-0.025em] text-pb-accent md:ml-[11vw]"
+              className="ml-[8vw] font-sans text-[clamp(3.7rem,7.8vw,8.8rem)] font-medium uppercase leading-[0.84] tracking-[-0.025em] text-[#9A4D00] md:ml-[11vw]"
             >
               ŒUVRES
             </p>
