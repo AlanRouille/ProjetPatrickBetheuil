@@ -28,6 +28,7 @@ export function FullscreenMenu({
 }: FullscreenMenuProps) {
   const panelRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
   const [shouldRender, setShouldRender] = useState(open);
 
@@ -213,6 +214,57 @@ export function FullscreenMenu({
     }
   }, [open, shouldRender]);
 
+  useEffect(() => {
+    if (!open || !shouldRender) return;
+
+    const panel = panelRef.current;
+    if (!panel) return;
+
+    const focusTimer = window.setTimeout(() => {
+      closeButtonRef.current?.focus();
+    }, 220);
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        onClose();
+        return;
+      }
+
+      if (event.key !== "Tab") return;
+
+      const focusable = Array.from(
+        panel.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )
+      ).filter((element) => element.getAttribute("aria-hidden") !== "true");
+
+      if (!focusable.length) {
+        event.preventDefault();
+        panel.focus();
+        return;
+      }
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.clearTimeout(focusTimer);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [onClose, open, shouldRender]);
+
   if (!shouldRender) return null;
 
   const closeMenu = () => {
@@ -221,7 +273,9 @@ export function FullscreenMenu({
 
   return (
     <div
+      id="fullscreen-menu"
       ref={panelRef}
+      tabIndex={-1}
       className="fixed inset-0 z-[100] text-pb-white"
       role="dialog"
       aria-modal="true"
@@ -262,6 +316,7 @@ export function FullscreenMenu({
           </Link>
 
           <button
+            ref={closeButtonRef}
             data-menu-close
             type="button"
             onClick={closeMenu}

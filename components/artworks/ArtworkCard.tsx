@@ -1,4 +1,5 @@
 import { ImageReveal } from "@/components/animations/ImageReveal";
+import { artworkImageAlt } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,7 +16,7 @@ export interface ArtworkCardData {
 interface ArtworkCardProps {
   artwork: ArtworkCardData;
   className?: string;
-  priority?: boolean;
+  preload?: boolean;
   quality?: number;
   sizes?: string;
 }
@@ -23,7 +24,7 @@ interface ArtworkCardProps {
 export function ArtworkCard({
   artwork,
   className,
-  priority = false,
+  preload = false,
   quality = 70,
   sizes = "(min-width: 1280px) 30vw, (min-width: 768px) 46vw, 90vw",
 }: ArtworkCardProps) {
@@ -31,7 +32,7 @@ export function ArtworkCard({
 
   return (
     <Link
-      href={`/projets/${artwork.id}`}
+      href={`/projets/${artwork.slug}`}
       className={cn(
         "group block focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-8 focus-visible:outline-pb-accent",
         className
@@ -40,11 +41,11 @@ export function ArtworkCard({
       <ImageReveal className="relative aspect-[4/5] bg-pb-black">
         <Image
           src={artwork.imageUrl}
-          alt={artwork.title}
+          alt={artworkImageAlt(artwork.title)}
           fill
           sizes={sizes}
           className="object-cover transition duration-700 group-hover:scale-[1.025]"
-          priority={priority}
+          preload={preload}
           quality={quality}
         />
         {isUnavailable ? (

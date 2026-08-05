@@ -1,13 +1,19 @@
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
-import type { Metadata } from "next";
+import { JsonLd } from "@/components/seo/JsonLd";
+import {
+  createBreadcrumbSchema,
+  createPageMetadata,
+  schemaGraph,
+} from "@/lib/seo";
 import type { ReactNode } from "react";
 
-export const metadata: Metadata = {
-  title: "Politique de confidentialité | Patrick Betheuil",
+export const metadata = createPageMetadata({
+  title: "Politique de confidentialité",
   description:
     "Politique de confidentialité et informations relatives au traitement des données personnelles sur le site de Patrick Betheuil.",
-};
+  canonical: "/politique-confidentialite",
+});
 
 function PrivacySection({
   number,
@@ -40,6 +46,17 @@ const listClasses = "mt-4 list-disc space-y-2 pl-5 marker:text-pb-accent";
 export default function PolitiqueConfidentialitePage() {
   return (
     <main className="min-h-screen bg-pb-black text-pb-white">
+      <JsonLd
+        data={schemaGraph([
+          createBreadcrumbSchema([
+            { name: "Accueil", path: "/" },
+            {
+              name: "Politique de confidentialité",
+              path: "/politique-confidentialite",
+            },
+          ]),
+        ])}
+      />
       <Header />
 
       <article

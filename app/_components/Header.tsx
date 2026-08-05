@@ -54,7 +54,7 @@ export function Header({ showLogo = true }: HeaderProps) {
                     showReturnText ? "filter brightness-0 invert" : ""
                   } hover:rotate-45`}
                   src={Logo}
-                  alt="Logo"
+                  alt="Patrick Betheuil"
                   width={42}
                   height={42}
                   onMouseEnter={() => setShowReturnText(true)}
@@ -168,7 +168,7 @@ export function Header({ showLogo = true }: HeaderProps) {
               <Image
                 className="cursor-pointer ml-2"
                 src={MenuBurger}
-                alt="MenuBurger"
+                alt=""
                 width={16}
                 height={16}
                 onMouseEnter={() => setShowText(true)}

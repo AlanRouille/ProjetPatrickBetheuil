@@ -15,7 +15,7 @@ export function AboutPreview() {
             <div className="relative mx-auto aspect-[4/5] w-full max-w-[430px] md:max-w-[360px] lg:max-w-[430px]">
               <Image
                 src="/images/l'artiste.jpg"
-                alt="Patrick Bétheuil dans son atelier"
+                alt="Patrick Betheuil, artiste peintre, dans son atelier à Chartres"
                 fill
                 sizes="(min-width: 1024px) 34vw, 80vw"
                 className="object-cover"
@@ -25,18 +25,26 @@ export function AboutPreview() {
           <FadeReveal delay={0.08} x={72} y={0}>
             <div className="max-w-xl">
               <h2 className="font-sans text-xl font-semibold leading-snug">
-                Je crée des œuvres nées de l’intuition et du vivant.
+                Je crée des peintures intuitives nées de l’intuition et du vivant.
               </h2>
               <div className="mt-8 space-y-6 font-sans text-lg leading-relaxed text-pb-black/75">
                 <p>
-                  Mon travail est guidé par le mouvement, la matière et
-                  l’émotion. À travers les encres aquarellables et les matières
-                  naturelles, je compose des univers organiques qui invitent à
-                  la contemplation et à l’interprétation.
+                  Ma peinture intuitive commence sans modèle imposé. Guidé par le
+                  mouvement, la matière et l’émotion, je laisse les encres
+                  aquarellables et les éléments naturels ouvrir un espace de
+                  dialogue entre le geste, le hasard et le regard.
                 </p>
                 <p>
-                  Chaque peinture est une porte ouverte vers un imaginaire
-                  libre, où le regard est invité à voyager sans contrainte.
+                  Je suis Patrick Betheuil, artiste peintre français installé à
+                  Chartres, en Eure-et-Loir. Mon travail s’inscrit dans une
+                  peinture contemporaine organique, entre art intuitif,
+                  abstraction et contemplation.
+                </p>
+                <p>
+                  Chaque œuvre originale est réalisée en un seul exemplaire.
+                  Elle s’adresse à celles et ceux qui souhaitent faire entrer
+                  dans leur intérieur une présence sensible, libre de toute
+                  interprétation imposée.
                 </p>
               </div>
             </div>

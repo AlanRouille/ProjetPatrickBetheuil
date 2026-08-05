@@ -1,6 +1,7 @@
 "use client";
 
 import { type ArtworkCardData } from "@/components/artworks/ArtworkCard";
+import { artworkImageAlt } from "@/lib/seo";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
@@ -162,12 +163,12 @@ export function FeaturedWorks({ artworks }: FeaturedWorksProps) {
           <Link
             key={artwork.id}
             data-featured-card
-            href={`/projets/${artwork.id}`}
+            href={`/projets/${artwork.slug}`}
             className="group relative block min-h-screen overflow-hidden text-pb-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-pb-accent"
           >
             <Image
               src={artwork.imageUrl}
-              alt={artwork.title}
+              alt={artworkImageAlt(artwork.title)}
               fill
               sizes="100vw"
               className="object-cover transition duration-700 group-hover:scale-[1.025]"

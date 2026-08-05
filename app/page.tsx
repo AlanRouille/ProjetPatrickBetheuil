@@ -9,8 +9,17 @@ import { ProcessSection } from "@/components/sections/ProcessSection";
 import { RecentWorks } from "@/components/sections/RecentWorks";
 import { prisma } from "@/lib/prisma";
 import type { ArtworkCardData } from "@/components/artworks/ArtworkCard";
+import { JsonLd } from "@/components/seo/JsonLd";
+import {
+  ARTIST_ID,
+  DEFAULT_DESCRIPTION,
+  SITE_NAME,
+  SITE_URL,
+  absoluteUrl,
+  schemaGraph,
+} from "@/lib/seo";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
 const heroFallback =
   "https://res.cloudinary.com/dugwzjef9/image/upload/v1779434851/la-vie.jpg";
@@ -82,16 +91,72 @@ export default async function HomePage() {
     ], 3);
 
   return (
-    <main className="bg-pb-black">
-      <Header />
-      <HeroSection imageUrl={heroArtwork?.imageUrl ?? heroFallback} />
-      <IntroStatement />
-      <RecentWorks artworks={recentWorks} />
-      <AboutPreview />
-      <ProcessSection />
-      <FeaturedWorks artworks={featuredWorks} />
-      <FocusGallery artworks={focusWorks} />
-      <Footer />
-    </main>
+    <>
+      <JsonLd
+        data={schemaGraph([
+          {
+            "@type": "WebSite",
+            "@id": `${SITE_URL}/#website`,
+            url: SITE_URL,
+            name: SITE_NAME,
+            alternateName: "Patrick Betheuil Artiste Peintre",
+            description: DEFAULT_DESCRIPTION,
+            inLanguage: "fr-FR",
+            publisher: { "@id": ARTIST_ID },
+          },
+          {
+            "@type": "Person",
+            "@id": ARTIST_ID,
+            name: SITE_NAME,
+            url: SITE_URL,
+            image: absoluteUrl("/images/l'artiste.jpg"),
+            jobTitle: "Artiste peintre français",
+            description:
+              "Artiste peintre français spécialisé dans la peinture intuitive, la peinture abstraite et l’art contemporain.",
+            nationality: {
+              "@type": "Country",
+              name: "France",
+            },
+            homeLocation: {
+              "@type": "Place",
+              name: "Chartres, Eure-et-Loir, Centre-Val de Loire",
+              address: {
+                "@type": "PostalAddress",
+                addressLocality: "Chartres",
+                addressRegion: "Centre-Val de Loire",
+                addressCountry: "FR",
+              },
+            },
+            sameAs: [
+              "https://www.instagram.com/betheuilpatrick/",
+              "https://www.facebook.com/betheuil.patrick",
+            ],
+            knowsAbout: [
+              "Peinture intuitive",
+              "Peinture abstraite intuitive",
+              "Art intuitif",
+              "Art contemporain",
+              "Peinture expressive",
+              "Peinture émotionnelle",
+            ],
+            mainEntityOfPage: SITE_URL,
+          },
+        ])}
+      />
+      <main className="bg-pb-black">
+        <Header />
+        <HeroSection
+          imageUrl={heroArtwork?.imageUrl ?? heroFallback}
+          imageTitle={heroArtwork?.title ?? "La Vie"}
+        />
+        <IntroStatement />
+        <RecentWorks artworks={recentWorks} />
+        <AboutPreview />
+        <ProcessSection />
+        <FeaturedWorks artworks={featuredWorks} />
+        <FocusGallery artworks={focusWorks} />
+        <Footer />
+      </main>
+    </>
   );
 }

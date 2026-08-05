@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { revalidatePublicArtworkPaths } from "@/lib/revalidate-artworks";
 import {
   sendAdminOrderNotification,
   sendBuyerOrderConfirmation,
@@ -120,7 +121,13 @@ export async function fulfillCheckoutSession(
           : []),
       ],
     },
-    include: { items: true },
+    include: {
+      items: {
+        include: {
+          artwork: { select: { slug: true } },
+        },
+      },
+    },
   });
 
   if (!order) {
@@ -168,20 +175,30 @@ export async function fulfillCheckoutSession(
     });
   });
 
+  revalidatePublicArtworkPaths(
+    order.items.map((item) => item.artwork.slug)
+  );
+
   await sendOutstandingOrderEmails(order.id);
 }
 
 export async function cancelPendingOrderBySessionId(sessionId: string) {
   const order = await prisma.order.findUnique({
     where: { stripeSessionId: sessionId },
-    include: { items: true },
+    include: {
+      items: {
+        include: {
+          artwork: { select: { slug: true } },
+        },
+      },
+    },
   });
 
   if (!order || order.status !== "PENDING") {
     return false;
   }
 
-  return prisma.$transaction(async (tx) => {
+  const canceled = await prisma.$transaction(async (tx) => {
     const canceled = await tx.order.updateMany({
       where: { id: order.id, status: "PENDING" },
       data: { status: "CANCELED" },
@@ -201,4 +218,12 @@ export async function cancelPendingOrderBySessionId(sessionId: string) {
 
     return true;
   });
+
+  if (canceled) {
+    revalidatePublicArtworkPaths(
+      order.items.map((item) => item.artwork.slug)
+    );
+  }
+
+  return canceled;
 }

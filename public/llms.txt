@@ -1,0 +1,25 @@
+# Patrick Betheuil
+
+> Site officiel de Patrick Betheuil, artiste peintre français spécialisé dans la peinture intuitive.
+
+## Présentation
+
+Patrick Betheuil crée des œuvres abstraites et intuitives. Le site présente son univers artistique, ses œuvres disponibles et ses informations de contact.
+
+## Pages principales
+
+- [Accueil](https://patrickbetheuil.com/)
+- [Œuvres](https://patrickbetheuil.com/projets)
+- [Contact](https://patrickbetheuil.com/#contact)
+- [Mentions légales](https://patrickbetheuil.com/mentions-legales)
+- [Politique de confidentialité](https://patrickbetheuil.com/politique-confidentialite)
+- [Conditions générales de vente](https://patrickbetheuil.com/cgv)
+
+## Informations commerciales
+
+Certaines œuvres originales peuvent être proposées à la vente. La disponibilité et les informations affichées sur chaque page d’œuvre sont les informations de référence.
+
+## Contact
+
+- [Formulaire de contact](https://patrickbetheuil.com/#contact)
+- E-mail : pbetheuil.art@gmail.com

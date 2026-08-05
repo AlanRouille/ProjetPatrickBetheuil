@@ -11,7 +11,7 @@ export function ArtworkGrid({ artworks }: ArtworkGridProps) {
         <ArtworkCard
           key={artwork.id}
           artwork={artwork}
-          priority={index < 2}
+          preload={index < 2}
         />
       ))}
     </div>

@@ -38,6 +38,7 @@ export function Header() {
   const scrollAnimationFrameRef = useRef<number | null>(null);
   const lastScrollYRef = useRef(0);
   const keepNavVisibleUntilRef = useRef(0);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const updateHeaderTheme = () => {
@@ -126,6 +127,7 @@ export function Header() {
 
   const handleMenuClosed = useCallback(() => {
     setNavHidden(false);
+    window.requestAnimationFrame(() => menuButtonRef.current?.focus());
   }, []);
 
   const scrollToTop = () => {
@@ -213,7 +215,13 @@ export function Header() {
                   : "group-hover:rotate-45 group-focus-visible:rotate-45"
               }`}
             >
-              <Image src={Logo} alt="" fill sizes="(max-width: 767px) 44px, 64px" />
+              <Image
+                src={Logo}
+                alt=""
+                fill
+                loading="eager"
+                sizes="(max-width: 767px) 44px, 64px"
+              />
             </span>
             {pathname !== "/" ? (
               <span className="ml-2 max-w-0 overflow-hidden whitespace-nowrap opacity-0 transition-[max-width,opacity] duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:max-w-24 group-hover:opacity-100 group-focus-visible:max-w-24 group-focus-visible:opacity-100">
@@ -285,13 +293,15 @@ export function Header() {
               </button>
             ) : null}
             <button
+              ref={menuButtonRef}
               type="button"
               onClick={openMenu}
               className={`group relative flex h-8 w-20 origin-center flex-col justify-center gap-2 transition-[opacity,transform] duration-200 ease-[cubic-bezier(0.76,0,0.24,1)] focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-pb-accent md:h-10 md:w-28 md:gap-2.5 ${
                 navHidden ? "scale-x-0 opacity-0" : "scale-x-100 opacity-100"
               }`}
               aria-label="Ouvrir le menu"
-              aria-expanded={navHidden}
+              aria-controls="fullscreen-menu"
+              aria-expanded={menuOpen || navHidden}
               aria-hidden={navHidden}
               disabled={navHidden}
             >
