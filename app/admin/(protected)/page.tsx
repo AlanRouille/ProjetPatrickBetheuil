@@ -1,7 +1,10 @@
 import { prisma } from "@/lib/prisma";
+import type { OrderStatus } from "@prisma/client";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
+
+const paidOrderStatuses: OrderStatus[] = ["PAID", "SHIPPED", "DELIVERED"];
 
 const currencyFormatter = new Intl.NumberFormat("fr-FR", {
   style: "currency",
@@ -30,7 +33,14 @@ function MetricCard({
 }
 
 export default async function AdminDashboardPage() {
-  const [availableCount, soldCount, recentOrders, paidTotal] =
+  const [
+    availableCount,
+    soldCount,
+    recentOrders,
+    paidTotal,
+    soldArtworks,
+    onlineOrderItems,
+  ] =
     await Promise.all([
       prisma.artwork.count({ where: { status: "AVAILABLE" } }),
       prisma.artwork.count({ where: { status: "SOLD" } }),
@@ -41,10 +51,31 @@ export default async function AdminDashboardPage() {
         include: { user: true },
       }),
       prisma.order.aggregate({
-        where: { status: { in: ["PAID", "SHIPPED", "DELIVERED"] } },
+        where: { status: { in: paidOrderStatuses } },
         _sum: { totalPrice: true },
       }),
+      prisma.artwork.findMany({
+        where: { status: "SOLD" },
+        select: { id: true, price: true },
+      }),
+      prisma.orderItem.findMany({
+        where: { order: { status: { in: paidOrderStatuses } } },
+        distinct: ["artworkId"],
+        select: { artworkId: true },
+      }),
     ]);
+
+  const onlineArtworkIds = new Set(
+    onlineOrderItems.map((item) => item.artworkId)
+  );
+  const manualSales = soldArtworks.filter(
+    (artwork) => !onlineArtworkIds.has(artwork.id)
+  );
+  const onlineRevenue = (paidTotal._sum?.totalPrice ?? 0) / 100;
+  const manualRevenue = manualSales.reduce(
+    (total, artwork) => total + artwork.price,
+    0
+  );
 
   return (
     <div className="space-y-8">
@@ -70,9 +101,37 @@ export default async function AdminDashboardPage() {
         <MetricCard label="Œuvres vendues" value={soldCount} />
         <MetricCard label="Commandes récentes" value={recentOrders.length} />
         <MetricCard
-          label="Chiffre d’affaires total"
-          value={currencyFormatter.format((paidTotal._sum.totalPrice ?? 0) / 100)}
+          label="CA commandes en ligne"
+          value={currencyFormatter.format(onlineRevenue)}
         />
+      </section>
+
+      <section className="rounded-sm border border-white/10 bg-pb-white/[0.04]">
+        <div className="border-b border-white/10 px-5 py-4">
+          <h3 className="text-xl font-light">Origine des ventes</h3>
+          <p className="mt-1 text-sm text-pb-white/60">
+            Les ventes manuelles correspondent aux œuvres marquées vendues sans
+            commande payée associée.
+          </p>
+        </div>
+        <div className="grid gap-4 p-5 md:grid-cols-2 xl:grid-cols-4">
+          <MetricCard
+            label="CA commandes en ligne"
+            value={currencyFormatter.format(onlineRevenue)}
+          />
+          <MetricCard
+            label="Œuvres vendues manuellement"
+            value={manualSales.length}
+          />
+          <MetricCard
+            label="CA ventes manuelles"
+            value={currencyFormatter.format(manualRevenue)}
+          />
+          <MetricCard
+            label="CA total cumulé"
+            value={currencyFormatter.format(onlineRevenue + manualRevenue)}
+          />
+        </div>
       </section>
 
       <section className="rounded-sm border border-white/10 bg-pb-white/[0.04]">
