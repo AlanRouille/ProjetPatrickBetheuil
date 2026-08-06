@@ -301,7 +301,7 @@ export function ProcessSection() {
             </p>
             <p
               data-process-selection-line
-              className="ml-[8vw] font-sans text-[clamp(3.7rem,7.8vw,8.8rem)] font-medium uppercase leading-[0.84] tracking-[-0.025em] text-[#9A4D00] md:ml-[11vw]"
+              className="ml-[8vw] font-sans text-[clamp(3.7rem,7.8vw,8.8rem)] font-medium uppercase leading-[0.84] tracking-[-0.025em] text-pb-accent md:ml-[11vw]"
             >
               ŒUVRES
             </p>
